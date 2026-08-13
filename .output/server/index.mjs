@@ -16,59 +16,52 @@ globalThis.__nitro_vite_envs__ = services;
 //#endregion
 //#region #nitro/virtual/public-assets-data
 var public_assets_data_default = {
+	"/assets/auth-B-S7f5Gc.js": {
+		"type": "text/javascript; charset=utf-8",
+		"etag": "\"4580-+4xEXGjvHUOyUY0ui/QJ2jRpDRY\"",
+		"mtime": "2026-08-13T12:11:32.202Z",
+		"size": 17792,
+		"path": "../public/assets/auth-B-S7f5Gc.js"
+	},
 	"/assets/dist-DYr2N4_J.js": {
 		"type": "text/javascript; charset=utf-8",
 		"etag": "\"1d02-dAy9Grpkc0nESD+0vltzhm0DED0\"",
-		"mtime": "2026-08-13T12:04:56.053Z",
+		"mtime": "2026-08-13T12:11:32.203Z",
 		"size": 7426,
 		"path": "../public/assets/dist-DYr2N4_J.js"
-	},
-	"/assets/admin-CUbNWHKB.js": {
-		"type": "text/javascript; charset=utf-8",
-		"etag": "\"216e-ojifuVFWv+n9zrgYCRj3UgN4xXo\"",
-		"mtime": "2026-08-13T12:04:56.052Z",
-		"size": 8558,
-		"path": "../public/assets/admin-CUbNWHKB.js"
 	},
 	"/assets/currency-Bw6Vyt_Q.js": {
 		"type": "text/javascript; charset=utf-8",
 		"etag": "\"40a8-GuJ/BJDlG1AEg5xc8IUCuGVGnVM\"",
-		"mtime": "2026-08-13T12:04:56.053Z",
+		"mtime": "2026-08-13T12:11:32.202Z",
 		"size": 16552,
 		"path": "../public/assets/currency-Bw6Vyt_Q.js"
 	},
-	"/assets/route-BGDYE_FG.js": {
+	"/assets/admin-CUbNWHKB.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"8b-HYV1VcJIHi/zbcpCei8EGhRLwYY\"",
-		"mtime": "2026-08-13T12:04:56.054Z",
-		"size": 139,
-		"path": "../public/assets/route-BGDYE_FG.js"
-	},
-	"/assets/auth-B-S7f5Gc.js": {
-		"type": "text/javascript; charset=utf-8",
-		"etag": "\"4580-+4xEXGjvHUOyUY0ui/QJ2jRpDRY\"",
-		"mtime": "2026-08-13T12:04:56.052Z",
-		"size": 17792,
-		"path": "../public/assets/auth-B-S7f5Gc.js"
-	},
-	"/robots.txt": {
-		"type": "text/plain; charset=utf-8",
-		"etag": "\"a0-CKGXSIe7TSsqDTmGm/nY1t/o5d0\"",
-		"mtime": "2026-08-12T16:13:04.072Z",
-		"size": 160,
-		"path": "../public/robots.txt"
+		"etag": "\"216e-ojifuVFWv+n9zrgYCRj3UgN4xXo\"",
+		"mtime": "2026-08-13T12:11:32.201Z",
+		"size": 8558,
+		"path": "../public/assets/admin-CUbNWHKB.js"
 	},
 	"/assets/label-hpYY8fr8.js": {
 		"type": "text/javascript; charset=utf-8",
 		"etag": "\"87ff-gssG/5visn3pFdfOiHMVOk5jMmw\"",
-		"mtime": "2026-08-13T12:04:56.054Z",
+		"mtime": "2026-08-13T12:11:32.204Z",
 		"size": 34815,
 		"path": "../public/assets/label-hpYY8fr8.js"
+	},
+	"/assets/route-BGDYE_FG.js": {
+		"type": "text/javascript; charset=utf-8",
+		"etag": "\"8b-HYV1VcJIHi/zbcpCei8EGhRLwYY\"",
+		"mtime": "2026-08-13T12:11:32.204Z",
+		"size": 139,
+		"path": "../public/assets/route-BGDYE_FG.js"
 	},
 	"/assets/routes-P6Nv0RfI.js": {
 		"type": "text/javascript; charset=utf-8",
 		"etag": "\"bd3e-9emxvKzlSzwX4FUoblGPbIBnJi8\"",
-		"mtime": "2026-08-13T12:04:56.055Z",
+		"mtime": "2026-08-13T12:11:32.205Z",
 		"size": 48446,
 		"path": "../public/assets/routes-P6Nv0RfI.js"
 	},
@@ -79,24 +72,31 @@ var public_assets_data_default = {
 		"size": 20373,
 		"path": "../public/favicon.ico"
 	},
-	"/assets/styles-CCnZmF_G.css": {
-		"type": "text/css; charset=utf-8",
-		"etag": "\"14413-IOa9pbLq4C7pSLeiFcNLxB95RnM\"",
-		"mtime": "2026-08-13T12:04:56.057Z",
-		"size": 82963,
-		"path": "../public/assets/styles-CCnZmF_G.css"
-	},
 	"/assets/useRouter-Dpb7RwMI.js": {
 		"type": "text/javascript; charset=utf-8",
 		"etag": "\"2144-OAWOWZt+i/sSs5fMTIk74KvSiew\"",
-		"mtime": "2026-08-13T12:04:56.055Z",
+		"mtime": "2026-08-13T12:11:32.205Z",
 		"size": 8516,
 		"path": "../public/assets/useRouter-Dpb7RwMI.js"
+	},
+	"/robots.txt": {
+		"type": "text/plain; charset=utf-8",
+		"etag": "\"a0-CKGXSIe7TSsqDTmGm/nY1t/o5d0\"",
+		"mtime": "2026-08-12T16:13:04.072Z",
+		"size": 160,
+		"path": "../public/robots.txt"
+	},
+	"/assets/styles-CCnZmF_G.css": {
+		"type": "text/css; charset=utf-8",
+		"etag": "\"14413-IOa9pbLq4C7pSLeiFcNLxB95RnM\"",
+		"mtime": "2026-08-13T12:11:32.205Z",
+		"size": 82963,
+		"path": "../public/assets/styles-CCnZmF_G.css"
 	},
 	"/assets/index-SbyDgvkx.js": {
 		"type": "text/javascript; charset=utf-8",
 		"etag": "\"8f06c-EAIpJkdyxBigL5QfhE9sEvTbPOc\"",
-		"mtime": "2026-08-13T12:04:56.052Z",
+		"mtime": "2026-08-13T12:11:32.201Z",
 		"size": 585836,
 		"path": "../public/assets/index-SbyDgvkx.js"
 	}
