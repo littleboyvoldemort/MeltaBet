@@ -4,11 +4,11 @@ import { g as useNavigate, h as Link } from "../_libs/@tanstack/react-router+[..
 import { t as createServerFn } from "./ssr.mjs";
 import { i as cn, n as Input, r as Label, t as Button } from "./label-Cq5SXjoZ.mjs";
 import { n as createSsrRpc, r as useServerFn, t as Badge } from "./createSsrRpc-CkdAslde.mjs";
-import { t as requireSupabaseAuth } from "./auth-middleware-D6DsnQQB.mjs";
+import { n as isValidBdMobile, r as requireSupabaseAuth, t as formatBdt } from "./currency-CcJur0Rs.mjs";
 import { i as useQueryClient, n as useQuery, t as useMutation } from "../_libs/tanstack__react-query.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
-import { _ as ArrowLeft, d as LoaderCircle, h as Check, l as Save, t as X } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/admin-k1j3lpXw.js
+import { f as Check, l as LoaderCircle, m as ArrowLeft, s as Save, t as X } from "../_libs/lucide-react.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/admin-NmvypqPf.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var Table = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -63,11 +63,13 @@ var TableCaption = import_react.forwardRef(({ className, ...props }, ref) => /* 
 }));
 TableCaption.displayName = "TableCaption";
 var getAdminOverview = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(createSsrRpc("98193c088815d6bbdd4155ffbad4b125116e51df7ef81d3d6aef43156e028e01"));
-var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(createSsrRpc("753a6f92f021fefa95a49e7a29c78ccd4f22240e1a1b3dd280581b8b0ae1546a"));
-var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(createSsrRpc("86447ecf30cd5852ffe83cd47b83e1a0a7d88e9329e5600e3be5ddc6312144f4"));
-var updateDepositWallet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => {
-	if (!input.address || input.address.trim().length < 8) throw new Error("Enter a valid wallet address");
-	return { address: input.address.trim().slice(0, 200) };
+var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => input).handler(createSsrRpc("753a6f92f021fefa95a49e7a29c78ccd4f22240e1a1b3dd280581b8b0ae1546a"));
+var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => input).handler(createSsrRpc("86447ecf30cd5852ffe83cd47b83e1a0a7d88e9329e5600e3be5ddc6312144f4"));
+var updateDepositWallet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => {
+	const address = input.address?.trim() ?? "";
+	if (!address) throw new Error("Enter a bKash/Nagad merchant number");
+	if (!isValidBdMobile(address)) throw new Error("Enter a valid bKash/Nagad number");
+	return { address };
 }).handler(createSsrRpc("065482ae45ffae84a5e8e2bc2577fd1bd3c13f875524197484f161f1f9eea328"));
 function AdminPage() {
 	const navigate = useNavigate();
@@ -114,7 +116,7 @@ function AdminPage() {
 	const saveWallet = useMutation({
 		mutationFn: () => walletFn({ data: { address: wallet } }),
 		onSuccess: () => {
-			toast.success("Deposit wallet updated");
+			toast.success("Merchant number updated");
 			queryClient.invalidateQueries({ queryKey: ["deposit-wallet"] });
 			refresh();
 		},
@@ -135,7 +137,7 @@ function AdminPage() {
 					children: "Admin console"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-sm text-muted-foreground",
-					children: "Approve deposits, process withdrawals, set the payout wallet."
+					children: "Approve deposits, process withdrawals, and set the merchant number."
 				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 					variant: "outline",
 					size: "sm",
@@ -173,9 +175,9 @@ function AdminPage() {
 								className: "font-medium",
 								children: t.username
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "tabular-nums",
-								children: ["$", t.amount.toFixed(2)]
+								children: formatBdt(t.amount)
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "max-w-[240px] truncate font-mono text-xs",
@@ -215,7 +217,7 @@ function AdminPage() {
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "User" }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Amount" }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Wallet address" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "bKash/Nagad Number" }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
 								className: "text-right",
 								children: "Action"
@@ -229,9 +231,9 @@ function AdminPage() {
 								className: "font-medium",
 								children: t.username
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "tabular-nums",
-								children: ["$", t.amount.toFixed(2)]
+								children: formatBdt(t.amount)
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "max-w-[260px] truncate font-mono text-xs",
@@ -253,19 +255,21 @@ function AdminPage() {
 					className: "rounded-xl border border-border bg-card p-4",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 						className: "mb-3 text-lg font-bold",
-						children: "Deposit wallet (USDT BEP20)"
+						children: "Deposit merchant number (bKash/Nagad)"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex flex-col gap-3 sm:flex-row sm:items-end",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "flex-1 space-y-2",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 								htmlFor: "wallet",
-								children: "Address shown to users"
+								children: "Number shown to users on the deposit page"
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 								id: "wallet",
 								value: wallet,
 								onChange: (e) => setWallet(e.target.value),
-								className: "font-mono"
+								placeholder: "Merchant bKash or Nagad number",
+								inputMode: "tel",
+								maxLength: 11
 							})]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 							onClick: () => saveWallet.mutate(),
@@ -296,9 +300,9 @@ function AdminPage() {
 								className: "capitalize",
 								children: t.type
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "tabular-nums",
-								children: ["$", t.amount.toFixed(2)]
+								children: formatBdt(t.amount)
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
 								variant: "secondary",

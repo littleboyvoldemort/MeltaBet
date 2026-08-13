@@ -175,7 +175,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-CyxZKWNg.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-D2r-p0pF.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -197,43 +197,43 @@ async function getStartManifest(matchedRoutes) {
 var manifest = {
 	"065482ae45ffae84a5e8e2bc2577fd1bd3c13f875524197484f161f1f9eea328": {
 		functionName: "updateDepositWallet_createServerFn_handler",
-		importer: () => import("./admin.functions-NvJVImLW.mjs")
+		importer: () => import("./admin.functions-DzeBJjfI.mjs")
 	},
 	"316746d20ccd0a791dabfa38f0a1c6e5b46d55e3220e99550984016b5635b15c": {
 		functionName: "getMyBets_createServerFn_handler",
-		importer: () => import("./betting.functions-BiBYdzQF.mjs")
+		importer: () => import("./betting.functions-bUJynybT.mjs")
 	},
 	"4cb8264cda65b07ebc21fdbf5f45bb810728e748abf35da3431f087a091529b9": {
 		functionName: "requestWithdraw_createServerFn_handler",
-		importer: () => import("./betting.functions-BiBYdzQF.mjs")
+		importer: () => import("./betting.functions-bUJynybT.mjs")
 	},
 	"60d3dd4d6e9fee451ac573cd74084b59aacba430fcb8a11f7c6ba62f450cad1f": {
 		functionName: "placeBet_createServerFn_handler",
-		importer: () => import("./betting.functions-BiBYdzQF.mjs")
+		importer: () => import("./betting.functions-bUJynybT.mjs")
 	},
 	"753a6f92f021fefa95a49e7a29c78ccd4f22240e1a1b3dd280581b8b0ae1546a": {
 		functionName: "decideDeposit_createServerFn_handler",
-		importer: () => import("./admin.functions-NvJVImLW.mjs")
+		importer: () => import("./admin.functions-DzeBJjfI.mjs")
 	},
 	"86447ecf30cd5852ffe83cd47b83e1a0a7d88e9329e5600e3be5ddc6312144f4": {
 		functionName: "markWithdrawPaid_createServerFn_handler",
-		importer: () => import("./admin.functions-NvJVImLW.mjs")
+		importer: () => import("./admin.functions-DzeBJjfI.mjs")
 	},
 	"98193c088815d6bbdd4155ffbad4b125116e51df7ef81d3d6aef43156e028e01": {
 		functionName: "getAdminOverview_createServerFn_handler",
-		importer: () => import("./admin.functions-NvJVImLW.mjs")
+		importer: () => import("./admin.functions-DzeBJjfI.mjs")
 	},
 	"ced47682977496baa9a158f2dd8a270bac990571dafb3c83ca9a88f21b204b6b": {
 		functionName: "getMyTransactions_createServerFn_handler",
-		importer: () => import("./betting.functions-BiBYdzQF.mjs")
+		importer: () => import("./betting.functions-bUJynybT.mjs")
 	},
 	"d9882b96d1ae5a052a8c772650bd3a3b68f58e86e29ad9ebead9def9ce3cda7d": {
 		functionName: "submitDeposit_createServerFn_handler",
-		importer: () => import("./betting.functions-BiBYdzQF.mjs")
+		importer: () => import("./betting.functions-bUJynybT.mjs")
 	},
 	"dda031e118da545a38ec567093d778335858489cbe90b5b4237d13d7b123f8a8": {
 		functionName: "getMyAccount_createServerFn_handler",
-		importer: () => import("./betting.functions-BiBYdzQF.mjs")
+		importer: () => import("./betting.functions-bUJynybT.mjs")
 	}
 };
 async function getServerFnById(id, access) {
@@ -1424,7 +1424,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-C4Uni_dE.mjs"),
+		import("./router-CB3h6FPD.mjs"),
 		import("./start-f2F9yZWh.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);

@@ -10,7 +10,7 @@ import { t as createClient } from "../_libs/supabase__supabase-js.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { i as useQueryClient, n as useQuery, r as QueryClientProvider, t as useMutation } from "../_libs/tanstack__react-query.mjs";
 import { n as toast, t as Toaster$1 } from "../_libs/sonner.mjs";
-import { _ as ArrowLeft, a as Trash2, c as Shield, d as LoaderCircle, f as Dices, g as ArrowUpFromLine, h as Check, i as Trophy, l as Save, m as Clock, n as Wallet, o as Ticket, p as Copy, r as Users, s as Spade, t as X, u as LogOut, v as ArrowDownToLine } from "../_libs/lucide-react.mjs";
+import { a as Spade, c as LogOut, d as Clock, f as Check, h as ArrowDownToLine, i as Trophy, l as LoaderCircle, m as ArrowLeft, n as Wallet, o as Shield, p as ArrowUpFromLine, r as Users, s as Save, t as X, u as Dices } from "../_libs/lucide-react.mjs";
 import { i as Trigger, n as List, r as Root2, t as Content } from "../_libs/radix-ui__react-tabs.mjs";
 import { t as supabase } from "./client.mjs";
 import processModule from "node:process";
@@ -18,7 +18,7 @@ import processModule from "node:process";
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 //#endregion
 //#region src/styles.css?url
-var styles_default = "/assets/styles-Uihsm0iu.css";
+var styles_default = "/assets/styles-CCnZmF_G.css";
 //#endregion
 //#region src/components/ui/sonner.tsx
 var import_jsx_runtime = require_jsx_runtime();
@@ -133,18 +133,18 @@ var Route$4 = createRootRouteWithContext()({
 				name: "viewport",
 				content: "width=device-width, initial-scale=1"
 			},
-			{ title: "ApexBet — Crypto Sportsbook" },
+			{ title: "MeltaBet — Sportsbook & Live Casino" },
 			{
 				name: "description",
-				content: "Place 3-way football bets, manage your balance and deposit with USDT on ApexBet."
+				content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on MeltaBet."
 			},
 			{
 				property: "og:title",
-				content: "ApexBet — Crypto Sportsbook"
+				content: "MeltaBet — Sportsbook & Live Casino"
 			},
 			{
 				property: "og:description",
-				content: "Place 3-way football bets, manage your balance and deposit with USDT on ApexBet."
+				content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on MeltaBet."
 			},
 			{
 				property: "og:type",
@@ -238,10 +238,10 @@ function SiteHeader({ username, balance, isAdmin, loading, signedIn, onDeposit, 
 				className: "flex items-center gap-2",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 					className: "grid size-8 place-items-center rounded-md bg-primary font-black text-primary-foreground",
-					children: "1"
+					children: "M"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 					className: "text-lg font-black tracking-tight",
-					children: ["APEX", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					children: ["MELTA", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 						className: "text-primary",
 						children: "BET"
 					})]
@@ -258,7 +258,10 @@ function SiteHeader({ username, balance, isAdmin, loading, signedIn, onDeposit, 
 								children: username ?? "Player"
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 								className: "text-sm font-bold tabular-nums",
-								children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-3 animate-spin" }) : `$${(balance ?? 0).toFixed(2)}`
+								children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-3 animate-spin" }) : `৳${(balance ?? 0).toLocaleString("en-BD", {
+									minimumFractionDigits: 0,
+									maximumFractionDigits: 2
+								})}`
 							})]
 						})]
 					}),
@@ -302,6 +305,26 @@ function SiteHeader({ username, balance, isAdmin, loading, signedIn, onDeposit, 
 	});
 }
 //#endregion
+//#region src/components/ui/input.tsx
+var Input = import_react.forwardRef(({ className, type, ...props }, ref) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+		type,
+		className: cn("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
+		ref,
+		...props
+	});
+});
+Input.displayName = "Input";
+//#endregion
+//#region src/components/ui/label.tsx
+var labelVariants = cva("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70");
+var Label = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root, {
+	ref,
+	className: cn(labelVariants(), className),
+	...props
+}));
+Label.displayName = Root.displayName;
+//#endregion
 //#region src/components/ui/skeleton.tsx
 function Skeleton({ className, ...props }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -310,26 +333,243 @@ function Skeleton({ className, ...props }) {
 	});
 }
 //#endregion
-//#region src/components/betting/match-list.tsx
-function OddsButton({ label, value, active, onClick, disabled }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-		type: "button",
-		onClick,
-		disabled,
-		className: cn("flex flex-1 flex-col items-center gap-0.5 rounded-md border border-border bg-secondary px-2 py-2 transition-colors", "hover:border-primary/70 hover:bg-secondary/70 disabled:cursor-not-allowed disabled:opacity-50", active && "border-primary bg-primary text-primary-foreground hover:bg-primary"),
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: cn("text-[10px] uppercase tracking-wide", active ? "text-primary-foreground/80" : "text-muted-foreground"),
-			children: label
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "text-sm font-bold tabular-nums",
-			children: value.toFixed(2)
-		})]
-	});
+//#region src/integrations/supabase/auth-middleware.ts
+function isNewSupabaseApiKey(value) {
+	return value.startsWith("sb_publishable_") || value.startsWith("sb_secret_");
 }
-function MatchList({ matches, loading, error, isDemo, selected, onPick }) {
+function createSupabaseFetch(supabaseKey) {
+	return (input, init) => {
+		const headers = new Headers(typeof Request !== "undefined" && input instanceof Request ? input.headers : void 0);
+		if (init?.headers) new Headers(init.headers).forEach((value, key) => headers.set(key, value));
+		if (isNewSupabaseApiKey(supabaseKey) && headers.get("Authorization") === `Bearer ${supabaseKey}`) headers.delete("Authorization");
+		headers.set("apikey", supabaseKey);
+		return fetch(input, {
+			...init,
+			headers
+		});
+	};
+}
+var requireSupabaseAuth = createMiddleware({ type: "function" }).server(async ({ next }) => {
+	const SUPABASE_URL = processModule.env["SUPABASE_URL"];
+	const SUPABASE_PUBLISHABLE_KEY = processModule.env["SUPABASE_PUBLISHABLE_KEY"];
+	if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+		const message = `Missing Supabase environment variable(s): ${[...!SUPABASE_URL ? ["SUPABASE_URL"] : [], ...!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []].join(", ")}. Connect Supabase in Lovable Cloud.`;
+		console.error(`[Supabase] ${message}`);
+		throw new Error(message);
+	}
+	const request = getRequest();
+	if (!request?.headers) throw new Error("Unauthorized: No request headers available");
+	const authHeader = request.headers.get("authorization");
+	if (!authHeader) throw new Error("Unauthorized: No authorization header provided");
+	if (!authHeader.startsWith("Bearer ")) throw new Error("Unauthorized: Only Bearer tokens are supported");
+	const token = authHeader.replace("Bearer ", "");
+	if (!token) throw new Error("Unauthorized: No token provided");
+	if (token.split(".").length !== 3) throw new Error("Unauthorized: Invalid token");
+	const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+		global: {
+			fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
+			headers: { Authorization: `Bearer ${token}` }
+		},
+		auth: {
+			storage: void 0,
+			persistSession: false,
+			autoRefreshToken: false
+		}
+	});
+	const { data, error } = await supabase.auth.getClaims(token);
+	if (error || !data?.claims) throw new Error("Unauthorized: Invalid token");
+	if (!data.claims.sub) throw new Error("Unauthorized: No user ID found in token");
+	return next({ context: {
+		supabase,
+		userId: data.claims.sub,
+		claims: data.claims
+	} });
+});
+//#endregion
+//#region src/lib/currency.ts
+function formatBdt(amount) {
+	return `৳${amount.toLocaleString("en-BD", {
+		minimumFractionDigits: 0,
+		maximumFractionDigits: 2
+	})}`;
+}
+var BD_MOBILE_PATTERN = /^01\d{9}$/;
+function isValidBdMobile(value) {
+	return BD_MOBILE_PATTERN.test(value.trim());
+}
+//#endregion
+//#region src/lib/betting.functions.ts
+var getMyAccount = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+	const { supabase, userId } = context;
+	const [{ data: profile }, { data: roles }] = await Promise.all([supabase.from("profiles").select("id, username, balance").eq("id", userId).maybeSingle(), supabase.from("user_roles").select("role").eq("user_id", userId)]);
+	return {
+		profile: profile ? {
+			id: profile.id,
+			username: profile.username,
+			balance: Number(profile.balance)
+		} : null,
+		isAdmin: (roles ?? []).some((r) => r.role === "admin")
+	};
+});
+createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+	const { data, error } = await context.supabase.from("transactions").select("id, type, amount, status, tx_id, wallet_address, created_at").eq("user_id", context.userId).order("created_at", { ascending: false }).limit(25);
+	if (error) throw new Error(error.message);
+	return (data ?? []).map((t) => ({
+		...t,
+		amount: Number(t.amount)
+	}));
+});
+createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+	const { data, error } = await context.supabase.from("bets").select("id, selections, stake, total_odds, potential_payout, status, created_at").eq("user_id", context.userId).order("created_at", { ascending: false }).limit(25);
+	if (error) throw new Error(error.message);
+	return (data ?? []).map((b) => ({
+		...b,
+		stake: Number(b.stake),
+		total_odds: Number(b.total_odds),
+		potential_payout: Number(b.potential_payout),
+		selections: b.selections
+	}));
+});
+var placeBet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => {
+	if (!Number.isFinite(input.amount) || input.amount < 50) throw new Error(`Minimum bet is ৳50`);
+	if (!Number.isFinite(input.odds) || input.odds <= 1) throw new Error("Invalid odds");
+	return {
+		amount: Math.round(input.amount * 100) / 100,
+		odds: input.odds,
+		matchId: input.matchId
+	};
+}).handler(async ({ data, context }) => {
+	const { supabaseAdmin } = await import("./client.server.mjs");
+	const userId = context.userId;
+	let odds = data.odds;
+	if (data.matchId && /^[0-9a-f-]{36}$/i.test(data.matchId)) {
+		const { data: match, error: matchError } = await supabaseAdmin.from("matches").select("id, odds_home, is_open").eq("id", data.matchId).maybeSingle();
+		if (matchError) throw new Error(matchError.message);
+		if (!match) throw new Error("Match not found");
+		if (!match.is_open) throw new Error("Betting is closed for this match");
+		odds = Number(match.odds_home);
+	}
+	const stake = data.amount;
+	const { data: profile, error: profileError } = await supabaseAdmin.from("profiles").select("balance").eq("id", userId).single();
+	if (profileError) throw new Error(profileError.message);
+	const balance = Number(profile.balance);
+	if (balance < stake) throw new Error("Insufficient balance");
+	const won = Math.random() < 1 / odds;
+	const payout = won ? Math.round(stake * odds * 100) / 100 : 0;
+	const newBalance = Math.round((balance - stake + payout) * 100) / 100;
+	const { data: updated, error: updateError } = await supabaseAdmin.from("profiles").update({ balance: newBalance }).eq("id", userId).gte("balance", stake).select("balance");
+	if (updateError) throw new Error(updateError.message);
+	if (!updated || updated.length === 0) throw new Error("Insufficient balance");
+	const status = won ? "won" : "lost";
+	if (data.matchId) await supabaseAdmin.from("bets").insert({
+		user_id: userId,
+		selections: [{
+			matchId: data.matchId,
+			pick: "home",
+			odds,
+			label: "Home"
+		}],
+		stake,
+		total_odds: odds,
+		potential_payout: Math.round(stake * odds * 100) / 100,
+		status
+	});
+	return {
+		status,
+		payout,
+		new_balance: Number(updated[0].balance)
+	};
+});
+var submitDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => {
+	if (!Number.isFinite(input.amount) || input.amount < 50) throw new Error(`Minimum deposit is ৳50`);
+	if (!input.txId || input.txId.trim().length < 6) throw new Error("Enter a valid transaction ID");
+	return {
+		amount: Math.round(input.amount * 100) / 100,
+		txId: input.txId.trim().slice(0, 200)
+	};
+}).handler(async ({ data, context }) => {
+	const { supabaseAdmin } = await import("./client.server.mjs");
+	const { error } = await supabaseAdmin.from("transactions").insert({
+		user_id: context.userId,
+		type: "deposit",
+		amount: data.amount,
+		tx_id: data.txId,
+		status: "pending"
+	});
+	if (error) throw new Error(error.message);
+	return { ok: true };
+});
+var requestWithdraw = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => {
+	if (!Number.isFinite(input.amount) || input.amount < 200) throw new Error(`Minimum withdrawal is ৳200`);
+	const number = input.wallet?.trim() ?? "";
+	if (!isValidBdMobile(number)) throw new Error("Enter a valid bKash/Nagad number");
+	return {
+		amount: Math.round(input.amount * 100) / 100,
+		wallet: number
+	};
+}).handler(async ({ data, context }) => {
+	const { supabaseAdmin } = await import("./client.server.mjs");
+	const userId = context.userId;
+	const { data: profile, error: profileError } = await supabaseAdmin.from("profiles").select("balance").eq("id", userId).single();
+	if (profileError) throw new Error(profileError.message);
+	const balance = Number(profile.balance);
+	if (balance < data.amount) throw new Error("Insufficient balance");
+	const { data: updated, error: updateError } = await supabaseAdmin.from("profiles").update({ balance: Math.round((balance - data.amount) * 100) / 100 }).eq("id", userId).gte("balance", data.amount).select("balance");
+	if (updateError) throw new Error(updateError.message);
+	if (!updated || updated.length === 0) throw new Error("Insufficient balance");
+	const { error } = await supabaseAdmin.from("transactions").insert({
+		user_id: userId,
+		type: "withdraw",
+		amount: data.amount,
+		wallet_address: data.wallet,
+		status: "pending"
+	});
+	if (error) {
+		await supabaseAdmin.from("profiles").update({ balance }).eq("id", userId);
+		throw new Error(error.message);
+	}
+	return { balance: Number(updated[0].balance) };
+});
+//#endregion
+//#region src/components/betting/match-list.tsx
+function MatchList({ matches, loading, error, isDemo, signedIn, onRequireAuth, onBalanceUpdate }) {
+	const placeBetFn = useServerFn(placeBet);
+	const [amounts, setAmounts] = (0, import_react.useState)({});
+	const [placingId, setPlacingId] = (0, import_react.useState)(null);
+	async function handlePlaceBet(match) {
+		if (!onRequireAuth()) return;
+		const amount = Number(amounts[match.id]);
+		if (!Number.isFinite(amount) || amount < 50) {
+			toast.error(`Minimum bet is ${formatBdt(50)}`);
+			return;
+		}
+		if (!match.is_open) {
+			toast.error("Betting is closed for this match");
+			return;
+		}
+		setPlacingId(match.id);
+		try {
+			const res = await placeBetFn({ data: {
+				amount,
+				odds: match.odds_home,
+				matchId: match.id
+			} });
+			onBalanceUpdate(res.new_balance);
+			setAmounts((prev) => ({
+				...prev,
+				[match.id]: ""
+			}));
+			if (res.status === "won") toast.success(`Congratulations! You won ${formatBdt(res.payout)}`);
+			else toast.error("You lost! Better luck next time.");
+		} catch (e) {
+			toast.error(e instanceof Error ? e.message : "Could not place bet");
+		} finally {
+			setPlacingId(null);
+		}
+	}
 	if (loading) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "space-y-3",
-		children: Array.from({ length: 5 }).map((_, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skeleton, { className: "h-28 w-full rounded-xl" }, i))
+		children: Array.from({ length: 5 }).map((_, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skeleton, { className: "h-40 w-full rounded-xl" }, i))
 	});
 	if (error) return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-center",
@@ -353,68 +593,71 @@ function MatchList({ matches, loading, error, isDemo, selected, onPick }) {
 		children: [isDemo ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 			className: "rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-200/90",
 			children: "Showing demo matches — run your Supabase migrations to load live odds from the database."
-		}) : null, matches.map((m) => {
-			const pick = selected[m.id];
-			return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
-				className: "rounded-xl border border-border bg-card p-4",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "mb-3 flex items-center justify-between gap-2 text-xs text-muted-foreground",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "rounded bg-secondary px-2 py-1 font-semibold uppercase tracking-wide text-primary",
-							children: m.league
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-							className: "flex items-center gap-1",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { className: "size-3" }), new Date(m.start_time).toLocaleString(void 0, {
-								day: "numeric",
-								month: "short",
-								hour: "2-digit",
-								minute: "2-digit"
-							})]
+		}) : null, matches.map((m) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
+			className: "rounded-xl border border-border bg-card p-4",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "mb-3 flex items-center justify-between gap-2 text-xs text-muted-foreground",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: "rounded bg-secondary px-2 py-1 font-semibold uppercase tracking-wide text-primary",
+						children: m.league
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+						className: "flex items-center gap-1",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { className: "size-3" }), new Date(m.start_time).toLocaleString(void 0, {
+							day: "numeric",
+							month: "short",
+							hour: "2-digit",
+							minute: "2-digit"
 						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-						className: "mb-3 text-base font-bold",
-						children: [
-							m.home_team,
-							" ",
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "text-muted-foreground",
-								children: "vs"
-							}),
-							" ",
-							m.away_team
-						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex gap-2",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(OddsButton, {
-								label: "1 Home",
-								value: m.odds_home,
-								active: pick === "home",
-								disabled: !m.is_open,
-								onClick: () => onPick(m, "home")
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(OddsButton, {
-								label: "X Draw",
-								value: m.odds_draw,
-								active: pick === "draw",
-								disabled: !m.is_open,
-								onClick: () => onPick(m, "draw")
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(OddsButton, {
-								label: "2 Away",
-								value: m.odds_away,
-								active: pick === "away",
-								disabled: !m.is_open,
-								onClick: () => onPick(m, "away")
-							})
-						]
-					})
-				]
-			}, m.id);
-		})]
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+					className: "mb-2 text-base font-bold",
+					children: [
+						m.home_team,
+						" ",
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-muted-foreground",
+							children: "vs"
+						}),
+						" ",
+						m.away_team
+					]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+					className: "mb-4 text-sm text-muted-foreground",
+					children: ["Home odds: ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: "font-bold text-primary",
+						children: m.odds_home.toFixed(2)
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex flex-col gap-3 sm:flex-row sm:items-end",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex-1 space-y-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							htmlFor: `bet-${m.id}`,
+							children: "Bet Amount (Min 50)"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							id: `bet-${m.id}`,
+							inputMode: "decimal",
+							value: amounts[m.id] ?? "",
+							onChange: (e) => setAmounts((prev) => ({
+								...prev,
+								[m.id]: e.target.value
+							})),
+							placeholder: "50",
+							disabled: !m.is_open || placingId === m.id
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						className: "sm:w-36",
+						disabled: !m.is_open || placingId === m.id,
+						onClick: () => handlePlaceBet(m),
+						children: placingId === m.id ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }) : signedIn ? "Place Bet" : "Sign in to bet"
+					})]
+				})
+			]
+		}, m.id))]
 	});
 }
 //#endregion
@@ -551,7 +794,7 @@ function CasinoCard({ game, signedIn, onPlay }) {
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 					className: "flex items-center gap-1",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { className: "size-3.5" }), game.players.toLocaleString()]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: ["Min $", game.minBet] })]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: ["Min ", formatBdt(game.minBet)] })]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 				size: "sm",
 				onClick: () => onPlay(game),
@@ -568,7 +811,7 @@ function CasinoGrid({ signedIn, onPlay }) {
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "flex items-center gap-2 text-sm text-muted-foreground",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dices, { className: "size-4 text-primary" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Real dealers · HD streams · Instant crypto payouts" })]
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dices, { className: "size-4 text-primary" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Real dealers · HD streams · Instant payouts" })]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
 				className: "mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted-foreground",
@@ -599,139 +842,6 @@ function CasinoGrid({ signedIn, onPlay }) {
 					className: "text-xs",
 					children: label
 				}, key))
-			})
-		]
-	});
-}
-//#endregion
-//#region src/components/ui/input.tsx
-var Input = import_react.forwardRef(({ className, type, ...props }, ref) => {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
-		type,
-		className: cn("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
-		ref,
-		...props
-	});
-});
-Input.displayName = "Input";
-//#endregion
-//#region src/components/ui/label.tsx
-var labelVariants = cva("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70");
-var Label = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root, {
-	ref,
-	className: cn(labelVariants(), className),
-	...props
-}));
-Label.displayName = Root.displayName;
-//#endregion
-//#region src/components/betting/bet-slip.tsx
-function BetSlip({ selections, stake, onStakeChange, onRemove, onClear, onPlaceBet, placing, signedIn, balance }) {
-	const totalOdds = selections.reduce((acc, s) => acc * s.odds, 1);
-	const stakeNumber = Number(stake) || 0;
-	const payout = stakeNumber * totalOdds;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "rounded-xl border border-border bg-card",
-		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "flex items-center justify-between border-b border-border px-4 py-3",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
-					className: "flex items-center gap-2 text-sm font-bold uppercase tracking-wide",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ticket, { className: "size-4 text-primary" }),
-						" Bet slip",
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "rounded bg-primary px-1.5 text-xs font-black text-primary-foreground",
-							children: selections.length
-						})
-					]
-				}), selections.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-					type: "button",
-					onClick: onClear,
-					className: "flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "size-3" }), " Clear"]
-				}) : null]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "max-h-[40vh] space-y-2 overflow-y-auto px-4 py-3 lg:max-h-[50vh]",
-				children: selections.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "py-6 text-center text-sm text-muted-foreground",
-					children: "Tap any odds to add a selection."
-				}) : selections.map((s) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-start gap-2 rounded-md border border-border bg-secondary px-3 py-2",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "min-w-0 flex-1",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "truncate text-xs text-muted-foreground",
-								children: s.label.split(" — ")[0]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-sm font-semibold",
-								children: s.label.split(" — ")[1]
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-sm font-bold tabular-nums text-primary",
-							children: s.odds.toFixed(2)
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-							type: "button",
-							onClick: () => onRemove(s.matchId),
-							"aria-label": "Remove selection",
-							className: "text-muted-foreground hover:text-destructive",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "size-4" })
-						})
-					]
-				}, s.matchId))
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "space-y-3 border-t border-border px-4 py-3",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center justify-between text-sm",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-muted-foreground",
-							children: "Total odds"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "font-bold tabular-nums",
-							children: totalOdds.toFixed(2)
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "space-y-1.5",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-							htmlFor: "stake",
-							className: "text-xs text-muted-foreground",
-							children: "Stake ($)"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							id: "stake",
-							inputMode: "decimal",
-							value: stake,
-							onChange: (e) => onStakeChange(e.target.value),
-							placeholder: "0.00"
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center justify-between text-sm",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-muted-foreground",
-							children: "Potential payout"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-							className: "text-lg font-black tabular-nums text-primary",
-							children: ["$", payout.toFixed(2)]
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-						className: "w-full",
-						size: "lg",
-						onClick: onPlaceBet,
-						disabled: placing || selections.length === 0 || stakeNumber <= 0,
-						children: [placing ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }) : null, signedIn ? "Place bet" : "Sign in to bet"]
-					}),
-					signedIn && stakeNumber > balance ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-center text-xs text-destructive",
-						children: "Stake exceeds your balance."
-					}) : null
-				]
 			})
 		]
 	});
@@ -783,97 +893,36 @@ var DialogDescription = import_react.forwardRef(({ className, ...props }, ref) =
 DialogDescription.displayName = DialogDescription$1.displayName;
 //#endregion
 //#region src/components/betting/wallet-dialogs.tsx
-function DepositDialog({ open, onOpenChange, walletAddress, walletLoading, submitting, onSubmit }) {
+function DepositDialog({ open, onOpenChange, submitting, onSubmit }) {
 	const [amount, setAmount] = (0, import_react.useState)("");
 	const [txId, setTxId] = (0, import_react.useState)("");
+	function handleSubmit() {
+		const parsed = Number(amount);
+		if (!Number.isFinite(parsed) || parsed < 50) {
+			toast.error(`Minimum deposit is ${formatBdt(50)}`);
+			return;
+		}
+		if (!txId.trim() || txId.trim().length < 6) {
+			toast.error("Enter a valid bKash/Nagad transaction ID");
+			return;
+		}
+		onSubmit(parsed, txId.trim());
+		setAmount("");
+		setTxId("");
+	}
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
 		open,
 		onOpenChange,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Deposit with USDT (BEP20)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Send USDT on the BEP20 network to the address below, then submit your transaction ID." })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Deposit" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Send money via bKash or Nagad, then submit your deposit request below. Your balance updates after admin approval." })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "space-y-4",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "space-y-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Deposit address" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center gap-2 rounded-md border border-border bg-secondary p-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
-							className: "min-w-0 flex-1 truncate font-mono text-xs",
-							children: walletLoading ? "Loading…" : walletAddress || "Not configured yet"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-							size: "sm",
-							variant: "outline",
-							onClick: () => {
-								navigator.clipboard.writeText(walletAddress);
-								toast.success("Address copied");
-							},
-							disabled: !walletAddress,
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Copy, { className: "size-4" })
-						})]
-					})]
-				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "space-y-2",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 						htmlFor: "dep-amount",
-						children: "Amount (USDT)"
+						children: "Amount (Min ৳50)"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 						id: "dep-amount",
-						inputMode: "decimal",
-						value: amount,
-						onChange: (e) => setAmount(e.target.value),
-						placeholder: "100"
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "space-y-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						htmlFor: "dep-tx",
-						children: "Transaction ID (TxID)"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						id: "dep-tx",
-						value: txId,
-						onChange: (e) => setTxId(e.target.value),
-						placeholder: "0x…",
-						className: "font-mono"
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-					className: "w-full",
-					disabled: submitting,
-					onClick: () => {
-						onSubmit(Number(amount), txId);
-						setAmount("");
-						setTxId("");
-					},
-					children: [submitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }) : null, " I have paid"]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-center text-xs text-muted-foreground",
-					children: "Your balance updates only after an admin confirms the payment."
-				})
-			]
-		})] })
-	});
-}
-function WithdrawDialog({ open, onOpenChange, balance, submitting, onSubmit }) {
-	const [amount, setAmount] = (0, import_react.useState)("");
-	const [wallet, setWallet] = (0, import_react.useState)("");
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
-		open,
-		onOpenChange,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Withdraw funds" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogDescription, { children: ["Available balance: ", /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-			className: "font-bold text-foreground",
-			children: ["$", balance.toFixed(2)]
-		})] })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "space-y-4",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "space-y-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						htmlFor: "wd-amount",
-						children: "Amount (USDT)"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						id: "wd-amount",
 						inputMode: "decimal",
 						value: amount,
 						onChange: (e) => setAmount(e.target.value),
@@ -883,221 +932,118 @@ function WithdrawDialog({ open, onOpenChange, balance, submitting, onSubmit }) {
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "space-y-2",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						htmlFor: "wd-wallet",
-						children: "Your USDT (BEP20) wallet address"
+						htmlFor: "dep-tx",
+						children: "bKash/Nagad Transaction ID"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						id: "wd-wallet",
-						value: wallet,
-						onChange: (e) => setWallet(e.target.value),
-						placeholder: "0x…",
-						className: "font-mono"
+						id: "dep-tx",
+						value: txId,
+						onChange: (e) => setTxId(e.target.value),
+						placeholder: "Enter your bKash or Nagad TxID"
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 					className: "w-full",
 					disabled: submitting,
-					onClick: () => {
-						onSubmit(Number(amount), wallet);
-						setAmount("");
-						setWallet("");
-					},
-					children: [submitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }) : null, " Request withdraw"]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-center text-xs text-muted-foreground",
-					children: "The amount is deducted immediately and paid out after admin processing."
+					onClick: handleSubmit,
+					children: [submitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }) : null, "Submit Deposit Request"]
 				})
 			]
 		})] })
 	});
 }
-//#endregion
-//#region src/integrations/supabase/auth-middleware.ts
-function isNewSupabaseApiKey(value) {
-	return value.startsWith("sb_publishable_") || value.startsWith("sb_secret_");
-}
-function createSupabaseFetch(supabaseKey) {
-	return (input, init) => {
-		const headers = new Headers(typeof Request !== "undefined" && input instanceof Request ? input.headers : void 0);
-		if (init?.headers) new Headers(init.headers).forEach((value, key) => headers.set(key, value));
-		if (isNewSupabaseApiKey(supabaseKey) && headers.get("Authorization") === `Bearer ${supabaseKey}`) headers.delete("Authorization");
-		headers.set("apikey", supabaseKey);
-		return fetch(input, {
-			...init,
-			headers
-		});
-	};
-}
-var requireSupabaseAuth = createMiddleware({ type: "function" }).server(async ({ next }) => {
-	const SUPABASE_URL = processModule.env["SUPABASE_URL"];
-	const SUPABASE_PUBLISHABLE_KEY = processModule.env["SUPABASE_PUBLISHABLE_KEY"];
-	if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-		const message = `Missing Supabase environment variable(s): ${[...!SUPABASE_URL ? ["SUPABASE_URL"] : [], ...!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []].join(", ")}. Connect Supabase in Lovable Cloud.`;
-		console.error(`[Supabase] ${message}`);
-		throw new Error(message);
-	}
-	const request = getRequest();
-	if (!request?.headers) throw new Error("Unauthorized: No request headers available");
-	const authHeader = request.headers.get("authorization");
-	if (!authHeader) throw new Error("Unauthorized: No authorization header provided");
-	if (!authHeader.startsWith("Bearer ")) throw new Error("Unauthorized: Only Bearer tokens are supported");
-	const token = authHeader.replace("Bearer ", "");
-	if (!token) throw new Error("Unauthorized: No token provided");
-	if (token.split(".").length !== 3) throw new Error("Unauthorized: Invalid token");
-	const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-		global: {
-			fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
-			headers: { Authorization: `Bearer ${token}` }
-		},
-		auth: {
-			storage: void 0,
-			persistSession: false,
-			autoRefreshToken: false
+function WithdrawDialog({ open, onOpenChange, balance, submitting, onSubmit }) {
+	const [amount, setAmount] = (0, import_react.useState)("");
+	const [mobileNumber, setMobileNumber] = (0, import_react.useState)("");
+	function handleSubmit() {
+		const parsed = Number(amount);
+		if (!Number.isFinite(parsed) || parsed < 200) {
+			toast.error(`Minimum withdrawal is ${formatBdt(200)}`);
+			return;
 		}
-	});
-	const { data, error } = await supabase.auth.getClaims(token);
-	if (error || !data?.claims) throw new Error("Unauthorized: Invalid token");
-	if (!data.claims.sub) throw new Error("Unauthorized: No user ID found in token");
-	return next({ context: {
-		supabase,
-		userId: data.claims.sub,
-		claims: data.claims
-	} });
-});
-//#endregion
-//#region src/lib/betting.functions.ts
-var getMyAccount = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
-	const { supabase, userId } = context;
-	const [{ data: profile }, { data: roles }] = await Promise.all([supabase.from("profiles").select("id, username, balance").eq("id", userId).maybeSingle(), supabase.from("user_roles").select("role").eq("user_id", userId)]);
-	return {
-		profile: profile ? {
-			id: profile.id,
-			username: profile.username,
-			balance: Number(profile.balance)
-		} : null,
-		isAdmin: (roles ?? []).some((r) => r.role === "admin")
-	};
-});
-createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
-	const { data, error } = await context.supabase.from("transactions").select("id, type, amount, status, tx_id, wallet_address, created_at").eq("user_id", context.userId).order("created_at", { ascending: false }).limit(25);
-	if (error) throw new Error(error.message);
-	return (data ?? []).map((t) => ({
-		...t,
-		amount: Number(t.amount)
-	}));
-});
-createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
-	const { data, error } = await context.supabase.from("bets").select("id, selections, stake, total_odds, potential_payout, status, created_at").eq("user_id", context.userId).order("created_at", { ascending: false }).limit(25);
-	if (error) throw new Error(error.message);
-	return (data ?? []).map((b) => ({
-		...b,
-		stake: Number(b.stake),
-		total_odds: Number(b.total_odds),
-		potential_payout: Number(b.potential_payout),
-		selections: b.selections
-	}));
-});
-var placeBet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => {
-	if (!Array.isArray(input.selections) || input.selections.length === 0) throw new Error("Your bet slip is empty");
-	if (!Number.isFinite(input.stake) || input.stake <= 0) throw new Error("Enter a valid stake");
-	return input;
-}).handler(async ({ data, context }) => {
-	const { supabaseAdmin } = await import("./client.server.mjs");
-	const userId = context.userId;
-	const matchIds = [...new Set(data.selections.map((s) => s.matchId))];
-	if (matchIds.length !== data.selections.length) throw new Error("Only one selection per match is allowed");
-	const { data: matches, error: matchError } = await supabaseAdmin.from("matches").select("id, home_team, away_team, odds_home, odds_draw, odds_away, is_open").in("id", matchIds);
-	if (matchError) throw new Error(matchError.message);
-	if (!matches || matches.length !== matchIds.length) throw new Error("Match not found");
-	const trusted = data.selections.map((s) => {
-		const m = matches.find((x) => x.id === s.matchId);
-		if (!m.is_open) throw new Error("Betting is closed for one of your matches");
-		const odds = s.pick === "home" ? Number(m.odds_home) : s.pick === "draw" ? Number(m.odds_draw) : Number(m.odds_away);
-		const label = s.pick === "home" ? m.home_team : s.pick === "draw" ? "Draw" : m.away_team;
-		return {
-			matchId: m.id,
-			pick: s.pick,
-			odds,
-			label: `${m.home_team} v ${m.away_team} — ${label}`
-		};
-	});
-	const stake = Math.round(data.stake * 100) / 100;
-	const totalOdds = Math.round(trusted.reduce((acc, s) => acc * s.odds, 1) * 100) / 100;
-	const payout = Math.round(stake * totalOdds * 100) / 100;
-	const { data: profile, error: profileError } = await supabaseAdmin.from("profiles").select("balance").eq("id", userId).single();
-	if (profileError) throw new Error(profileError.message);
-	const balance = Number(profile.balance);
-	if (balance < stake) throw new Error("Insufficient balance");
-	const { data: updated, error: updateError } = await supabaseAdmin.from("profiles").update({ balance: Math.round((balance - stake) * 100) / 100 }).eq("id", userId).gte("balance", stake).select("balance");
-	if (updateError) throw new Error(updateError.message);
-	if (!updated || updated.length === 0) throw new Error("Insufficient balance");
-	const { error: betError } = await supabaseAdmin.from("bets").insert({
-		user_id: userId,
-		selections: trusted,
-		stake,
-		total_odds: totalOdds,
-		potential_payout: payout
-	});
-	if (betError) {
-		await supabaseAdmin.from("profiles").update({ balance }).eq("id", userId);
-		throw new Error(betError.message);
+		const number = mobileNumber.trim();
+		if (!isValidBdMobile(number)) {
+			toast.error("Enter a valid bKash/Nagad number");
+			return;
+		}
+		if (parsed > balance) {
+			toast.error("Amount exceeds your available balance");
+			return;
+		}
+		onSubmit(parsed, number);
+		setAmount("");
+		setMobileNumber("");
 	}
-	return {
-		balance: Number(updated[0].balance),
-		stake,
-		totalOdds,
-		payout
-	};
-});
-var submitDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => {
-	if (!Number.isFinite(input.amount) || input.amount <= 0) throw new Error("Enter a valid amount");
-	if (!input.txId || input.txId.trim().length < 6) throw new Error("Enter a valid transaction ID");
-	return {
-		amount: Math.round(input.amount * 100) / 100,
-		txId: input.txId.trim().slice(0, 200)
-	};
-}).handler(async ({ data, context }) => {
-	const { supabaseAdmin } = await import("./client.server.mjs");
-	const { error } = await supabaseAdmin.from("transactions").insert({
-		user_id: context.userId,
-		type: "deposit",
-		amount: data.amount,
-		tx_id: data.txId,
-		status: "pending"
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
+		open,
+		onOpenChange,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Withdraw funds" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogDescription, { children: [
+			"Available balance:",
+			" ",
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "font-bold text-foreground",
+				children: formatBdt(balance)
+			}),
+			". Minimum withdrawal ",
+			formatBdt(200),
+			"."
+		] })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "space-y-4",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "space-y-2",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							htmlFor: "wd-mobile",
+							children: "User's bKash/Nagad Number"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							id: "wd-mobile",
+							inputMode: "tel",
+							value: mobileNumber,
+							onChange: (e) => setMobileNumber(e.target.value),
+							placeholder: "Your bKash or Nagad number",
+							maxLength: 11
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-xs text-muted-foreground",
+							children: "Enter the bKash or Nagad number where you want to receive the money."
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "space-y-2",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							htmlFor: "wd-amount",
+							children: "Amount (৳)"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							id: "wd-amount",
+							inputMode: "decimal",
+							value: amount,
+							onChange: (e) => setAmount(e.target.value),
+							placeholder: `Min 200`
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+							className: "text-xs text-muted-foreground",
+							children: ["Minimum withdrawal ", formatBdt(200)]
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+					className: "w-full",
+					disabled: submitting,
+					onClick: handleSubmit,
+					children: [submitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }) : null, " Request withdrawal"]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-center text-xs text-muted-foreground",
+					children: "The amount is deducted immediately and sent to your number after admin processing."
+				})
+			]
+		})] })
 	});
-	if (error) throw new Error(error.message);
-	return { ok: true };
-});
-var requestWithdraw = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => {
-	if (!Number.isFinite(input.amount) || input.amount <= 0) throw new Error("Enter a valid amount");
-	if (!input.wallet || input.wallet.trim().length < 8) throw new Error("Enter a valid wallet address");
-	return {
-		amount: Math.round(input.amount * 100) / 100,
-		wallet: input.wallet.trim().slice(0, 200)
-	};
-}).handler(async ({ data, context }) => {
-	const { supabaseAdmin } = await import("./client.server.mjs");
-	const userId = context.userId;
-	const { data: profile, error: profileError } = await supabaseAdmin.from("profiles").select("balance").eq("id", userId).single();
-	if (profileError) throw new Error(profileError.message);
-	const balance = Number(profile.balance);
-	if (balance < data.amount) throw new Error("Insufficient balance");
-	const { data: updated, error: updateError } = await supabaseAdmin.from("profiles").update({ balance: Math.round((balance - data.amount) * 100) / 100 }).eq("id", userId).gte("balance", data.amount).select("balance");
-	if (updateError) throw new Error(updateError.message);
-	if (!updated || updated.length === 0) throw new Error("Insufficient balance");
-	const { error } = await supabaseAdmin.from("transactions").insert({
-		user_id: userId,
-		type: "withdraw",
-		amount: data.amount,
-		wallet_address: data.wallet,
-		status: "pending"
-	});
-	if (error) {
-		await supabaseAdmin.from("profiles").update({ balance }).eq("id", userId);
-		throw new Error(error.message);
-	}
-	return { balance: Number(updated[0].balance) };
-});
+}
 //#endregion
 //#region src/lib/demo-matches.ts
 var day = (n) => new Date(Date.now() + n * 864e5).toISOString();
@@ -1159,6 +1105,12 @@ var DEMO_MATCHES = [
 	}
 ];
 //#endregion
+//#region src/lib/settings.ts
+/** Settings row key for the bKash/Nagad number shown on the deposit page. */
+var MERCHANT_SETTING_KEY = "deposit_merchant_bkash_nagad";
+/** Legacy key from earlier builds — read as fallback only. */
+var LEGACY_MERCHANT_SETTING_KEY = "deposit_wallet_usdt_bep20";
+//#endregion
 //#region src/lib/betting-hooks.ts
 function useSession() {
 	const [session, setSession] = (0, import_react.useState)(null);
@@ -1194,21 +1146,6 @@ function useInvalidateAccount() {
 		queryClient.invalidateQueries({ queryKey: ["transactions"] });
 		queryClient.invalidateQueries({ queryKey: ["bets"] });
 	};
-}
-function useDepositWallet() {
-	return useQuery({
-		queryKey: ["deposit-wallet"],
-		queryFn: async () => {
-			const { data, error } = await supabase.from("settings").select("value").eq("key", "deposit_wallet_usdt_bep20").maybeSingle();
-			if (error) {
-				console.warn("[settings] Supabase unavailable:", error.message);
-				return "";
-			}
-			return data?.value ?? "";
-		},
-		retry: false,
-		staleTime: 6e4
-	});
 }
 function useMatches() {
 	return useQuery({
@@ -1246,18 +1183,18 @@ function useMatches() {
 var Route$3 = createFileRoute("/")({
 	ssr: false,
 	head: () => ({ meta: [
-		{ title: "ApexBet — Live Sports Betting & Crypto Sportsbook" },
+		{ title: "MeltaBet — Live Sports Betting & Casino" },
 		{
 			name: "description",
-			content: "Bet on football with 3-way odds, build multi-selection slips, deposit with USDT BEP20 and cash out fast on ApexBet."
+			content: "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad on MeltaBet."
 		},
 		{
 			property: "og:title",
-			content: "ApexBet — Live Sports Betting & Crypto Sportsbook"
+			content: "MeltaBet — Live Sports Betting & Casino"
 		},
 		{
 			property: "og:description",
-			content: "Bet on football with 3-way odds, build multi-selection slips, deposit with USDT BEP20 and cash out fast."
+			content: "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad."
 		}
 	] }),
 	component: Home
@@ -1268,43 +1205,32 @@ function Home() {
 	const signedIn = !!session;
 	const account = useAccount(signedIn);
 	const matches = useMatches();
-	const wallet = useDepositWallet();
 	const invalidate = useInvalidateAccount();
-	const [selections, setSelections] = (0, import_react.useState)([]);
-	const [stake, setStake] = (0, import_react.useState)("");
+	const [displayBalance, setDisplayBalance] = (0, import_react.useState)(null);
 	const [depositOpen, setDepositOpen] = (0, import_react.useState)(false);
 	const [withdrawOpen, setWithdrawOpen] = (0, import_react.useState)(false);
 	const [activeTab, setActiveTab] = (0, import_react.useState)("sports");
-	const placeBetFn = useServerFn(placeBet);
 	const depositFn = useServerFn(submitDeposit);
 	const withdrawFn = useServerFn(requestWithdraw);
-	const balance = account.data?.profile?.balance ?? 0;
-	const betMutation = useMutation({
-		mutationFn: () => placeBetFn({ data: {
-			selections,
-			stake: Number(stake)
-		} }),
-		onSuccess: (res) => {
-			toast.success(`Bet placed — potential payout $${res.payout.toFixed(2)}`);
-			setSelections([]);
-			setStake("");
-			invalidate();
-		},
-		onError: (e) => toast.error(e.message || "Could not place bet")
-	});
+	const accountBalance = account.data?.profile?.balance ?? 0;
+	const balance = displayBalance ?? accountBalance;
+	(0, import_react.useEffect)(() => {
+		if (account.data?.profile?.balance != null) setDisplayBalance(account.data.profile.balance);
+	}, [account.data?.profile?.balance]);
 	const depositMutation = useMutation({
 		mutationFn: (vars) => depositFn({ data: vars }),
 		onSuccess: () => {
 			setDepositOpen(false);
-			toast.success("Deposit submitted. Awaiting admin confirmation.");
+			toast.success("Deposit request submitted! Please wait for admin approval.");
 			invalidate();
 		},
 		onError: (e) => toast.error(e.message || "Could not submit deposit")
 	});
 	const withdrawMutation = useMutation({
 		mutationFn: (vars) => withdrawFn({ data: vars }),
-		onSuccess: () => {
+		onSuccess: (res) => {
 			setWithdrawOpen(false);
+			setDisplayBalance(res.balance);
 			toast.success("Withdrawal request submitted. Pending admin processing.");
 			invalidate();
 		},
@@ -1318,21 +1244,6 @@ function Home() {
 		}
 		return true;
 	}
-	function pick(match, choice) {
-		const odds = choice === "home" ? match.odds_home : choice === "draw" ? match.odds_draw : match.odds_away;
-		const label = `${match.home_team} v ${match.away_team} — ${choice === "home" ? match.home_team : choice === "draw" ? "Draw" : match.away_team}`;
-		setSelections((prev) => {
-			const existing = prev.find((s) => s.matchId === match.id);
-			if (existing && existing.pick === choice) return prev.filter((s) => s.matchId !== match.id);
-			return [...prev.filter((s) => s.matchId !== match.id), {
-				matchId: match.id,
-				pick: choice,
-				odds,
-				label
-			}];
-		});
-	}
-	const selectedMap = Object.fromEntries(selections.map((s) => [s.matchId, s.pick]));
 	function handleCasinoPlay(game) {
 		if (!requireAuth()) return;
 		toast.info(`${game.name} is launching soon — live dealer integration coming next.`);
@@ -1375,7 +1286,7 @@ function Home() {
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "mt-2 max-w-xl text-sm text-muted-foreground",
-								children: activeTab === "sports" ? "Three-way markets on the biggest fixtures, instant bet slips, and crypto deposits with manual security review on every payout." : "Stream live roulette, blackjack, baccarat and game shows — play with your ApexBet balance in real time."
+								children: activeTab === "sports" ? "Pick a match, enter your bet amount, and place instantly. Deposits via bKash/Nagad." : "Stream live roulette, blackjack, baccarat and game shows — play with your MeltaBet balance in real time."
 							})
 						]
 					}),
@@ -1393,46 +1304,29 @@ function Home() {
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dices, { className: "size-4" }), "Live Casino"]
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid gap-6 lg:grid-cols-[1fr_340px]",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: activeTab === "sports" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-							className: "mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground",
-							children: "Upcoming matches"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MatchList, {
-							matches: matchData,
-							loading: matches.isLoading,
-							error: matches.isError ? matches.error.message : null,
-							isDemo: isDemoMatches,
-							selected: selectedMap,
-							onPick: pick
-						})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-							className: "mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground",
-							children: "Live casino games"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CasinoGrid, {
-							signedIn,
-							onPlay: handleCasinoPlay
-						})] }) }), activeTab === "sports" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("aside", {
-							className: "lg:sticky lg:top-20 lg:h-fit",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BetSlip, {
-								selections,
-								stake,
-								onStakeChange: setStake,
-								onRemove: (id) => setSelections((p) => p.filter((s) => s.matchId !== id)),
-								onClear: () => setSelections([]),
-								onPlaceBet: () => requireAuth() && betMutation.mutate(),
-								placing: betMutation.isPending,
-								signedIn,
-								balance
-							})
-						}) : null]
-					})
+					activeTab === "sports" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground",
+						children: "Upcoming matches"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MatchList, {
+						matches: matchData,
+						loading: matches.isLoading,
+						error: matches.isError ? matches.error.message : null,
+						isDemo: isDemoMatches,
+						signedIn,
+						onRequireAuth: requireAuth,
+						onBalanceUpdate: setDisplayBalance
+					})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground",
+						children: "Live casino games"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CasinoGrid, {
+						signedIn,
+						onPlay: handleCasinoPlay
+					})] })
 				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DepositDialog, {
 				open: depositOpen,
 				onOpenChange: setDepositOpen,
-				walletAddress: wallet.data ?? "",
-				walletLoading: wallet.isLoading,
 				submitting: depositMutation.isPending,
 				onSubmit: (amount, txId) => depositMutation.mutate({
 					amount,
@@ -1488,18 +1382,18 @@ TabsContent.displayName = Content.displayName;
 //#region src/routes/auth.tsx
 var Route$1 = createFileRoute("/auth")({
 	head: () => ({ meta: [
-		{ title: "Sign in or register — ApexBet Sportsbook" },
+		{ title: "Sign in or register — MeltaBet Sportsbook" },
 		{
 			name: "description",
-			content: "Create your ApexBet account or log in to place bets, deposit crypto and track your balance."
+			content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance."
 		},
 		{
 			property: "og:title",
-			content: "Sign in or register — ApexBet Sportsbook"
+			content: "Sign in or register — MeltaBet Sportsbook"
 		},
 		{
 			property: "og:description",
-			content: "Create your ApexBet account or log in to place bets, deposit crypto and track your balance."
+			content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance."
 		}
 	] }),
 	component: AuthPage
@@ -1569,14 +1463,14 @@ function AuthPage() {
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
 					className: "text-2xl font-black tracking-tight",
-					children: ["APEX", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					children: ["MELTA", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 						className: "text-primary",
 						children: "BET"
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "mt-1 text-sm text-muted-foreground",
-					children: "Sign in to place bets, deposit and withdraw."
+					children: "Sign in to place bets, deposit via bKash/Nagad, and withdraw."
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Tabs, {
 					defaultValue: "login",
@@ -1759,11 +1653,14 @@ async function assertAdmin(context) {
 var getAdminOverview = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server.mjs");
-	const [{ data: txs }, { data: profiles }, { data: setting }] = await Promise.all([
+	const [{ data: txs }, { data: profiles }, { data: setting }, { data: legacySetting }] = await Promise.all([
 		supabaseAdmin.from("transactions").select("id, user_id, type, amount, status, tx_id, wallet_address, created_at").order("created_at", { ascending: false }).limit(200),
 		supabaseAdmin.from("profiles").select("id, username, balance"),
-		supabaseAdmin.from("settings").select("value").eq("key", "deposit_wallet_usdt_bep20").maybeSingle()
+		supabaseAdmin.from("settings").select("value").eq("key", MERCHANT_SETTING_KEY).maybeSingle(),
+		supabaseAdmin.from("settings").select("value").eq("key", LEGACY_MERCHANT_SETTING_KEY).maybeSingle()
 	]);
+	const rawMerchant = setting?.value ?? legacySetting?.value ?? "";
+	const merchantNumber = rawMerchant.startsWith("0x") ? "" : rawMerchant;
 	const names = new Map((profiles ?? []).map((p) => [p.id, p.username]));
 	return {
 		transactions: (txs ?? []).map((t) => ({
@@ -1775,10 +1672,10 @@ var getAdminOverview = createServerFn({ method: "GET" }).middleware([requireSupa
 			...p,
 			balance: Number(p.balance)
 		})),
-		walletAddress: setting?.value ?? ""
+		walletAddress: merchantNumber
 	};
 });
-var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(async ({ data, context }) => {
+var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => input).handler(async ({ data, context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server.mjs");
 	const { data: tx, error } = await supabaseAdmin.from("transactions").select("id, user_id, amount, type, status").eq("id", data.id).single();
@@ -1798,7 +1695,7 @@ var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupaba
 	if (sErr) throw new Error(sErr.message);
 	return { ok: true };
 });
-var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(async ({ data, context }) => {
+var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => input).handler(async ({ data, context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server.mjs");
 	const { error } = await supabaseAdmin.from("transactions").update({
@@ -1808,14 +1705,16 @@ var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSup
 	if (error) throw new Error(error.message);
 	return { ok: true };
 });
-var updateDepositWallet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => {
-	if (!input.address || input.address.trim().length < 8) throw new Error("Enter a valid wallet address");
-	return { address: input.address.trim().slice(0, 200) };
+var updateDepositWallet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => {
+	const address = input.address?.trim() ?? "";
+	if (!address) throw new Error("Enter a bKash/Nagad merchant number");
+	if (!isValidBdMobile(address)) throw new Error("Enter a valid bKash/Nagad number");
+	return { address };
 }).handler(async ({ data, context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server.mjs");
 	const { error } = await supabaseAdmin.from("settings").upsert({
-		key: "deposit_wallet_usdt_bep20",
+		key: MERCHANT_SETTING_KEY,
 		value: data.address,
 		updated_at: (/* @__PURE__ */ new Date()).toISOString()
 	});
@@ -1826,7 +1725,7 @@ var updateDepositWallet = createServerFn({ method: "POST" }).middleware([require
 //#region src/routes/_authenticated/admin.tsx
 var Route = createFileRoute("/_authenticated/admin")({
 	head: () => ({ meta: [
-		{ title: "Admin console — ApexBet" },
+		{ title: "Admin console — MeltaBet" },
 		{
 			name: "description",
 			content: "Approve deposits, process withdrawals and manage payout settings."
@@ -1883,7 +1782,7 @@ function AdminPage() {
 	const saveWallet = useMutation({
 		mutationFn: () => walletFn({ data: { address: wallet } }),
 		onSuccess: () => {
-			toast.success("Deposit wallet updated");
+			toast.success("Merchant number updated");
 			queryClient.invalidateQueries({ queryKey: ["deposit-wallet"] });
 			refresh();
 		},
@@ -1904,7 +1803,7 @@ function AdminPage() {
 					children: "Admin console"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-sm text-muted-foreground",
-					children: "Approve deposits, process withdrawals, set the payout wallet."
+					children: "Approve deposits, process withdrawals, and set the merchant number."
 				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 					variant: "outline",
 					size: "sm",
@@ -1942,9 +1841,9 @@ function AdminPage() {
 								className: "font-medium",
 								children: t.username
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "tabular-nums",
-								children: ["$", t.amount.toFixed(2)]
+								children: formatBdt(t.amount)
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "max-w-[240px] truncate font-mono text-xs",
@@ -1984,7 +1883,7 @@ function AdminPage() {
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "User" }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Amount" }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Wallet address" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "bKash/Nagad Number" }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
 								className: "text-right",
 								children: "Action"
@@ -1998,9 +1897,9 @@ function AdminPage() {
 								className: "font-medium",
 								children: t.username
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "tabular-nums",
-								children: ["$", t.amount.toFixed(2)]
+								children: formatBdt(t.amount)
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "max-w-[260px] truncate font-mono text-xs",
@@ -2022,19 +1921,21 @@ function AdminPage() {
 					className: "rounded-xl border border-border bg-card p-4",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 						className: "mb-3 text-lg font-bold",
-						children: "Deposit wallet (USDT BEP20)"
+						children: "Deposit merchant number (bKash/Nagad)"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex flex-col gap-3 sm:flex-row sm:items-end",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "flex-1 space-y-2",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 								htmlFor: "wallet",
-								children: "Address shown to users"
+								children: "Number shown to users on the deposit page"
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 								id: "wallet",
 								value: wallet,
 								onChange: (e) => setWallet(e.target.value),
-								className: "font-mono"
+								placeholder: "Merchant bKash or Nagad number",
+								inputMode: "tel",
+								maxLength: 11
 							})]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 							onClick: () => saveWallet.mutate(),
@@ -2065,9 +1966,9 @@ function AdminPage() {
 								className: "capitalize",
 								children: t.type
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 								className: "tabular-nums",
-								children: ["$", t.amount.toFixed(2)]
+								children: formatBdt(t.amount)
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
 								variant: "secondary",

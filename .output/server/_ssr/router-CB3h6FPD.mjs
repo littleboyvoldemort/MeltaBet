@@ -5,10 +5,10 @@ import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { r as QueryClientProvider } from "../_libs/tanstack__react-query.mjs";
 import { t as Toaster } from "../_libs/sonner.mjs";
 import { t as supabase } from "./client-BsC7W_eT.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-C4Uni_dE.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-CB3h6FPD.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-Uihsm0iu.css";
+var styles_default = "/assets/styles-CCnZmF_G.css";
 var Toaster$1 = ({ ...props }) => {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Toaster, {
 		className: "toaster group",
@@ -116,18 +116,18 @@ var Route$4 = createRootRouteWithContext()({
 				name: "viewport",
 				content: "width=device-width, initial-scale=1"
 			},
-			{ title: "ApexBet — Crypto Sportsbook" },
+			{ title: "MeltaBet — Sportsbook & Live Casino" },
 			{
 				name: "description",
-				content: "Place 3-way football bets, manage your balance and deposit with USDT on ApexBet."
+				content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on MeltaBet."
 			},
 			{
 				property: "og:title",
-				content: "ApexBet — Crypto Sportsbook"
+				content: "MeltaBet — Sportsbook & Live Casino"
 			},
 			{
 				property: "og:description",
-				content: "Place 3-way football bets, manage your balance and deposit with USDT on ApexBet."
+				content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on MeltaBet."
 			},
 			{
 				property: "og:type",
@@ -168,22 +168,22 @@ function RootComponent() {
 		})]
 	});
 }
-var $$splitComponentImporter$3 = () => import("./routes-Bh9yTCue.mjs");
+var $$splitComponentImporter$3 = () => import("./routes-BbEK1Aix.mjs");
 var Route$3 = createFileRoute("/")({
 	ssr: false,
 	head: () => ({ meta: [
-		{ title: "ApexBet — Live Sports Betting & Crypto Sportsbook" },
+		{ title: "MeltaBet — Live Sports Betting & Casino" },
 		{
 			name: "description",
-			content: "Bet on football with 3-way odds, build multi-selection slips, deposit with USDT BEP20 and cash out fast on ApexBet."
+			content: "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad on MeltaBet."
 		},
 		{
 			property: "og:title",
-			content: "ApexBet — Live Sports Betting & Crypto Sportsbook"
+			content: "MeltaBet — Live Sports Betting & Casino"
 		},
 		{
 			property: "og:description",
-			content: "Bet on football with 3-way odds, build multi-selection slips, deposit with USDT BEP20 and cash out fast."
+			content: "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad."
 		}
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter$3, "component")
@@ -198,29 +198,29 @@ var Route$2 = createFileRoute("/_authenticated")({
 	},
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./auth-YEELy31O.mjs");
+var $$splitComponentImporter$1 = () => import("./auth-DUbrsLoA.mjs");
 var Route$1 = createFileRoute("/auth")({
 	head: () => ({ meta: [
-		{ title: "Sign in or register — ApexBet Sportsbook" },
+		{ title: "Sign in or register — MeltaBet Sportsbook" },
 		{
 			name: "description",
-			content: "Create your ApexBet account or log in to place bets, deposit crypto and track your balance."
+			content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance."
 		},
 		{
 			property: "og:title",
-			content: "Sign in or register — ApexBet Sportsbook"
+			content: "Sign in or register — MeltaBet Sportsbook"
 		},
 		{
 			property: "og:description",
-			content: "Create your ApexBet account or log in to place bets, deposit crypto and track your balance."
+			content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance."
 		}
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./admin-k1j3lpXw.mjs");
+var $$splitComponentImporter = () => import("./admin-NmvypqPf.mjs");
 var Route = createFileRoute("/_authenticated/admin")({
 	head: () => ({ meta: [
-		{ title: "Admin console — ApexBet" },
+		{ title: "Admin console — MeltaBet" },
 		{
 			name: "description",
 			content: "Approve deposits, process withdrawals and manage payout settings."

@@ -1,7 +1,11 @@
 import { t as createServerFn } from "./ssr.mjs";
-import { t as requireSupabaseAuth } from "./auth-middleware-D6DsnQQB.mjs";
+import { n as isValidBdMobile, r as requireSupabaseAuth } from "./currency-CcJur0Rs.mjs";
 import { t as createServerRpc } from "./createServerRpc-A6pJPYTF.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/admin.functions-NvJVImLW.js
+//#region node_modules/.nitro/vite/services/ssr/assets/admin.functions-DzeBJjfI.js
+/** Settings row key for the bKash/Nagad number shown on the deposit page. */
+var MERCHANT_SETTING_KEY = "deposit_merchant_bkash_nagad";
+/** Legacy key from earlier builds — read as fallback only. */
+var LEGACY_MERCHANT_SETTING_KEY = "deposit_wallet_usdt_bep20";
 async function assertAdmin(context) {
 	const { data, error } = await context.supabase.rpc("has_role", {
 		_user_id: context.userId,
@@ -18,11 +22,14 @@ var getAdminOverview_createServerFn_handler = createServerRpc({
 var getAdminOverview = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(getAdminOverview_createServerFn_handler, async ({ context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server-KzwUIAkW.mjs");
-	const [{ data: txs }, { data: profiles }, { data: setting }] = await Promise.all([
+	const [{ data: txs }, { data: profiles }, { data: setting }, { data: legacySetting }] = await Promise.all([
 		supabaseAdmin.from("transactions").select("id, user_id, type, amount, status, tx_id, wallet_address, created_at").order("created_at", { ascending: false }).limit(200),
 		supabaseAdmin.from("profiles").select("id, username, balance"),
-		supabaseAdmin.from("settings").select("value").eq("key", "deposit_wallet_usdt_bep20").maybeSingle()
+		supabaseAdmin.from("settings").select("value").eq("key", MERCHANT_SETTING_KEY).maybeSingle(),
+		supabaseAdmin.from("settings").select("value").eq("key", LEGACY_MERCHANT_SETTING_KEY).maybeSingle()
 	]);
+	const rawMerchant = setting?.value ?? legacySetting?.value ?? "";
+	const merchantNumber = rawMerchant.startsWith("0x") ? "" : rawMerchant;
 	const names = new Map((profiles ?? []).map((p) => [p.id, p.username]));
 	return {
 		transactions: (txs ?? []).map((t) => ({
@@ -34,7 +41,7 @@ var getAdminOverview = createServerFn({ method: "GET" }).middleware([requireSupa
 			...p,
 			balance: Number(p.balance)
 		})),
-		walletAddress: setting?.value ?? ""
+		walletAddress: merchantNumber
 	};
 });
 var decideDeposit_createServerFn_handler = createServerRpc({
@@ -42,7 +49,7 @@ var decideDeposit_createServerFn_handler = createServerRpc({
 	name: "decideDeposit",
 	filename: "src/lib/admin.functions.ts"
 }, (opts) => decideDeposit.__executeServer(opts));
-var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(decideDeposit_createServerFn_handler, async ({ data, context }) => {
+var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => input).handler(decideDeposit_createServerFn_handler, async ({ data, context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server-KzwUIAkW.mjs");
 	const { data: tx, error } = await supabaseAdmin.from("transactions").select("id, user_id, amount, type, status").eq("id", data.id).single();
@@ -67,7 +74,7 @@ var markWithdrawPaid_createServerFn_handler = createServerRpc({
 	name: "markWithdrawPaid",
 	filename: "src/lib/admin.functions.ts"
 }, (opts) => markWithdrawPaid.__executeServer(opts));
-var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(markWithdrawPaid_createServerFn_handler, async ({ data, context }) => {
+var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => input).handler(markWithdrawPaid_createServerFn_handler, async ({ data, context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server-KzwUIAkW.mjs");
 	const { error } = await supabaseAdmin.from("transactions").update({
@@ -82,14 +89,16 @@ var updateDepositWallet_createServerFn_handler = createServerRpc({
 	name: "updateDepositWallet",
 	filename: "src/lib/admin.functions.ts"
 }, (opts) => updateDepositWallet.__executeServer(opts));
-var updateDepositWallet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => {
-	if (!input.address || input.address.trim().length < 8) throw new Error("Enter a valid wallet address");
-	return { address: input.address.trim().slice(0, 200) };
+var updateDepositWallet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).validator((input) => {
+	const address = input.address?.trim() ?? "";
+	if (!address) throw new Error("Enter a bKash/Nagad merchant number");
+	if (!isValidBdMobile(address)) throw new Error("Enter a valid bKash/Nagad number");
+	return { address };
 }).handler(updateDepositWallet_createServerFn_handler, async ({ data, context }) => {
 	await assertAdmin(context);
 	const { supabaseAdmin } = await import("./client.server-KzwUIAkW.mjs");
 	const { error } = await supabaseAdmin.from("settings").upsert({
-		key: "deposit_wallet_usdt_bep20",
+		key: MERCHANT_SETTING_KEY,
 		value: data.address,
 		updated_at: (/* @__PURE__ */ new Date()).toISOString()
 	});

@@ -193,24 +193,6 @@ var Clock = createLucideIcon("clock", [["circle", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
-var Copy = createLucideIcon("copy", [["rect", {
-	width: "14",
-	height: "14",
-	x: "8",
-	y: "8",
-	rx: "2",
-	ry: "2",
-	key: "17jyea"
-}], ["path", {
-	d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2",
-	key: "zix9uf"
-}]]);
-/**
-* @license lucide-react v0.575.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
 var Dices = createLucideIcon("dices", [
 	["rect", {
 		width: "12",
@@ -321,58 +303,6 @@ var Spade = createLucideIcon("spade", [["path", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
-var Ticket = createLucideIcon("ticket", [
-	["path", {
-		d: "M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z",
-		key: "qn84l0"
-	}],
-	["path", {
-		d: "M13 5v2",
-		key: "dyzc3o"
-	}],
-	["path", {
-		d: "M13 17v2",
-		key: "1ont0d"
-	}],
-	["path", {
-		d: "M13 11v2",
-		key: "1wjjxi"
-	}]
-]);
-/**
-* @license lucide-react v0.575.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
-var Trash2 = createLucideIcon("trash-2", [
-	["path", {
-		d: "M10 11v6",
-		key: "nco0om"
-	}],
-	["path", {
-		d: "M14 11v6",
-		key: "outv1u"
-	}],
-	["path", {
-		d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6",
-		key: "miytrc"
-	}],
-	["path", {
-		d: "M3 6h18",
-		key: "d0wm0j"
-	}],
-	["path", {
-		d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
-		key: "e791ji"
-	}]
-]);
-/**
-* @license lucide-react v0.575.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
 var Trophy = createLucideIcon("trophy", [
 	["path", {
 		d: "M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978",
@@ -452,4 +382,4 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 //#endregion
-export { ArrowLeft as _, Trash2 as a, Shield as c, LoaderCircle as d, Dices as f, ArrowUpFromLine as g, Check as h, Trophy as i, Save as l, Clock as m, Wallet as n, Ticket as o, Copy as p, Users as r, Spade as s, X as t, LogOut as u, ArrowDownToLine as v };
+export { Spade as a, LogOut as c, Clock as d, Check as f, ArrowDownToLine as h, Trophy as i, LoaderCircle as l, ArrowLeft as m, Wallet as n, Shield as o, ArrowUpFromLine as p, Users as r, Save as s, X as t, Dices as u };

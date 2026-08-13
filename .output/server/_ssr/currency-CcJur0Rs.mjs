@@ -1,7 +1,7 @@
-import { t as createMiddleware } from "./createMiddleware-B_4t7rW1.js";
-import { i as getRequest } from "../index.js";
-import { createClient } from "@supabase/supabase-js";
-//#region src/integrations/supabase/auth-middleware.ts
+import { i as getRequest, s as createMiddleware } from "./ssr.mjs";
+import { t as createClient } from "../_libs/supabase__supabase-js.mjs";
+import processModule from "node:process";
+//#region node_modules/.nitro/vite/services/ssr/assets/currency-CcJur0Rs.js
 function isNewSupabaseApiKey(value) {
 	return value.startsWith("sb_publishable_") || value.startsWith("sb_secret_");
 }
@@ -18,8 +18,8 @@ function createSupabaseFetch(supabaseKey) {
 	};
 }
 var requireSupabaseAuth = createMiddleware({ type: "function" }).server(async ({ next }) => {
-	const SUPABASE_URL = process.env["SUPABASE_URL"];
-	const SUPABASE_PUBLISHABLE_KEY = process.env["SUPABASE_PUBLISHABLE_KEY"];
+	const SUPABASE_URL = processModule.env["SUPABASE_URL"];
+	const SUPABASE_PUBLISHABLE_KEY = processModule.env["SUPABASE_PUBLISHABLE_KEY"];
 	if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
 		const message = `Missing Supabase environment variable(s): ${[...!SUPABASE_URL ? ["SUPABASE_URL"] : [], ...!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []].join(", ")}. Connect Supabase in Lovable Cloud.`;
 		console.error(`[Supabase] ${message}`);
@@ -53,5 +53,15 @@ var requireSupabaseAuth = createMiddleware({ type: "function" }).server(async ({
 		claims: data.claims
 	} });
 });
+function formatBdt(amount) {
+	return `৳${amount.toLocaleString("en-BD", {
+		minimumFractionDigits: 0,
+		maximumFractionDigits: 2
+	})}`;
+}
+var BD_MOBILE_PATTERN = /^01\d{9}$/;
+function isValidBdMobile(value) {
+	return BD_MOBILE_PATTERN.test(value.trim());
+}
 //#endregion
-export { requireSupabaseAuth as t };
+export { isValidBdMobile as n, requireSupabaseAuth as r, formatBdt as t };
