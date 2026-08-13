@@ -1,0 +1,316 @@
+import { r as __toESM } from "../_runtime.mjs";
+import { o as require_jsx_runtime, s as require_react } from "../_libs/@radix-ui/react-collection+[...].mjs";
+import { g as useNavigate, h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { t as createServerFn } from "./ssr.mjs";
+import { i as cn, n as Input, r as Label, t as Button } from "./label-Cq5SXjoZ.mjs";
+import { n as createSsrRpc, r as useServerFn, t as Badge } from "./createSsrRpc-CkdAslde.mjs";
+import { t as requireSupabaseAuth } from "./auth-middleware-D6DsnQQB.mjs";
+import { i as useQueryClient, n as useQuery, t as useMutation } from "../_libs/tanstack__react-query.mjs";
+import { n as toast } from "../_libs/sonner.mjs";
+import { _ as ArrowLeft, d as LoaderCircle, h as Check, l as Save, t as X } from "../_libs/lucide-react.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/admin-k1j3lpXw.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_runtime = require_jsx_runtime();
+var Table = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: "relative w-full overflow-auto",
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("table", {
+		ref,
+		className: cn("w-full caption-bottom text-sm", className),
+		...props
+	})
+}));
+Table.displayName = "Table";
+var TableHeader = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("thead", {
+	ref,
+	className: cn("[&_tr]:border-b", className),
+	...props
+}));
+TableHeader.displayName = "TableHeader";
+var TableBody = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", {
+	ref,
+	className: cn("[&_tr:last-child]:border-0", className),
+	...props
+}));
+TableBody.displayName = "TableBody";
+var TableFooter = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tfoot", {
+	ref,
+	className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className),
+	...props
+}));
+TableFooter.displayName = "TableFooter";
+var TableRow = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tr", {
+	ref,
+	className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className),
+	...props
+}));
+TableRow.displayName = "TableRow";
+var TableHead = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+	ref,
+	className: cn("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className),
+	...props
+}));
+TableHead.displayName = "TableHead";
+var TableCell = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
+	ref,
+	className: cn("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className),
+	...props
+}));
+TableCell.displayName = "TableCell";
+var TableCaption = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("caption", {
+	ref,
+	className: cn("mt-4 text-sm text-muted-foreground", className),
+	...props
+}));
+TableCaption.displayName = "TableCaption";
+var getAdminOverview = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(createSsrRpc("98193c088815d6bbdd4155ffbad4b125116e51df7ef81d3d6aef43156e028e01"));
+var decideDeposit = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(createSsrRpc("753a6f92f021fefa95a49e7a29c78ccd4f22240e1a1b3dd280581b8b0ae1546a"));
+var markWithdrawPaid = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => input).handler(createSsrRpc("86447ecf30cd5852ffe83cd47b83e1a0a7d88e9329e5600e3be5ddc6312144f4"));
+var updateDepositWallet = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input) => {
+	if (!input.address || input.address.trim().length < 8) throw new Error("Enter a valid wallet address");
+	return { address: input.address.trim().slice(0, 200) };
+}).handler(createSsrRpc("065482ae45ffae84a5e8e2bc2577fd1bd3c13f875524197484f161f1f9eea328"));
+function AdminPage() {
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+	const overviewFn = useServerFn(getAdminOverview);
+	const decideFn = useServerFn(decideDeposit);
+	const payFn = useServerFn(markWithdrawPaid);
+	const walletFn = useServerFn(updateDepositWallet);
+	const [wallet, setWallet] = (0, import_react.useState)("");
+	const overview = useQuery({
+		queryKey: ["admin-overview"],
+		queryFn: () => overviewFn(),
+		retry: false
+	});
+	(0, import_react.useEffect)(() => {
+		if (overview.data?.walletAddress) setWallet(overview.data.walletAddress);
+	}, [overview.data?.walletAddress]);
+	(0, import_react.useEffect)(() => {
+		if (overview.isError) {
+			toast.error("You don't have access to the admin console.");
+			navigate({
+				to: "/",
+				replace: true
+			});
+		}
+	}, [overview.isError, navigate]);
+	const refresh = () => queryClient.invalidateQueries({ queryKey: ["admin-overview"] });
+	const decide = useMutation({
+		mutationFn: (vars) => decideFn({ data: vars }),
+		onSuccess: (_d, vars) => {
+			toast.success(vars.approve ? "Deposit approved and credited" : "Deposit rejected");
+			refresh();
+		},
+		onError: (e) => toast.error(e.message)
+	});
+	const pay = useMutation({
+		mutationFn: (id) => payFn({ data: { id } }),
+		onSuccess: () => {
+			toast.success("Withdrawal marked as paid");
+			refresh();
+		},
+		onError: (e) => toast.error(e.message)
+	});
+	const saveWallet = useMutation({
+		mutationFn: () => walletFn({ data: { address: wallet } }),
+		onSuccess: () => {
+			toast.success("Deposit wallet updated");
+			queryClient.invalidateQueries({ queryKey: ["deposit-wallet"] });
+			refresh();
+		},
+		onError: (e) => toast.error(e.message)
+	});
+	const txs = overview.data?.transactions ?? [];
+	const pendingDeposits = txs.filter((t) => t.type === "deposit" && t.status === "pending");
+	const pendingWithdrawals = txs.filter((t) => t.type === "withdraw" && t.status === "pending");
+	const history = txs.filter((t) => t.status !== "pending").slice(0, 25);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", {
+		className: "min-h-screen bg-background px-4 py-8",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "mx-auto max-w-6xl space-y-8",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex items-center justify-between gap-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+					className: "text-2xl font-black tracking-tight",
+					children: "Admin console"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-sm text-muted-foreground",
+					children: "Approve deposits, process withdrawals, set the payout wallet."
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+					variant: "outline",
+					size: "sm",
+					asChild: true,
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+						to: "/",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "size-4" }), " Back to sportsbook"]
+					})
+				})]
+			}), overview.isLoading ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex items-center gap-2 text-muted-foreground",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }), " Loading admin data…"]
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+					className: "rounded-xl border border-border bg-card p-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mb-3 text-lg font-bold",
+						children: "Pending deposits"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "overflow-x-auto",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "User" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Amount" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "TxID" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+								className: "text-right",
+								children: "Action"
+							})
+						] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: pendingDeposits.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							colSpan: 4,
+							className: "text-muted-foreground",
+							children: "No pending deposits."
+						}) }) : pendingDeposits.map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+								className: "font-medium",
+								children: t.username
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+								className: "tabular-nums",
+								children: ["$", t.amount.toFixed(2)]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+								className: "max-w-[240px] truncate font-mono text-xs",
+								children: t.tx_id
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+								className: "space-x-2 text-right",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+									size: "sm",
+									disabled: decide.isPending,
+									onClick: () => decide.mutate({
+										id: t.id,
+										approve: true
+									}),
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "size-4" }), " Approve"]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+									size: "sm",
+									variant: "outline",
+									disabled: decide.isPending,
+									onClick: () => decide.mutate({
+										id: t.id,
+										approve: false
+									}),
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "size-4" }), " Reject"]
+								})]
+							})
+						] }, t.id)) })] })
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+					className: "rounded-xl border border-border bg-card p-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mb-3 text-lg font-bold",
+						children: "Pending withdrawals"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "overflow-x-auto",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "User" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Amount" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Wallet address" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+								className: "text-right",
+								children: "Action"
+							})
+						] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: pendingWithdrawals.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							colSpan: 4,
+							className: "text-muted-foreground",
+							children: "No pending withdrawals."
+						}) }) : pendingWithdrawals.map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+								className: "font-medium",
+								children: t.username
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+								className: "tabular-nums",
+								children: ["$", t.amount.toFixed(2)]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+								className: "max-w-[260px] truncate font-mono text-xs",
+								children: t.wallet_address
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+								className: "text-right",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+									size: "sm",
+									disabled: pay.isPending,
+									onClick: () => pay.mutate(t.id),
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "size-4" }), " Mark as paid"]
+								})
+							})
+						] }, t.id)) })] })
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+					className: "rounded-xl border border-border bg-card p-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mb-3 text-lg font-bold",
+						children: "Deposit wallet (USDT BEP20)"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex flex-col gap-3 sm:flex-row sm:items-end",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex-1 space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								htmlFor: "wallet",
+								children: "Address shown to users"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								id: "wallet",
+								value: wallet,
+								onChange: (e) => setWallet(e.target.value),
+								className: "font-mono"
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							onClick: () => saveWallet.mutate(),
+							disabled: saveWallet.isPending,
+							children: [saveWallet.isPending ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "size-4 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { className: "size-4" }), "Save"]
+						})]
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+					className: "rounded-xl border border-border bg-card p-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mb-3 text-lg font-bold",
+						children: "Recent processed transactions"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "overflow-x-auto",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "User" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Type" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Amount" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Status" })
+						] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: history.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							colSpan: 4,
+							className: "text-muted-foreground",
+							children: "Nothing processed yet."
+						}) }) : history.map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: t.username }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+								className: "capitalize",
+								children: t.type
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableCell, {
+								className: "tabular-nums",
+								children: ["$", t.amount.toFixed(2)]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+								variant: "secondary",
+								className: "capitalize",
+								children: t.status
+							}) })
+						] }, t.id)) })] })
+					})]
+				})
+			] })]
+		})
+	});
+}
+//#endregion
+export { AdminPage as component };

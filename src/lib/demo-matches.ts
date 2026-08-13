@@ -1,0 +1,61 @@
+import type { Match } from "@/lib/betting-hooks";
+
+const day = (n: number) => new Date(Date.now() + n * 86_400_000).toISOString();
+
+export const DEMO_MATCHES: Match[] = [
+  {
+    id: "demo-1",
+    league: "La Liga",
+    home_team: "Real Madrid",
+    away_team: "Barcelona",
+    start_time: day(1),
+    odds_home: 2.1,
+    odds_draw: 3.4,
+    odds_away: 3.2,
+    is_open: true,
+  },
+  {
+    id: "demo-2",
+    league: "Friendly",
+    home_team: "Brazil",
+    away_team: "Argentina",
+    start_time: day(2),
+    odds_home: 2.55,
+    odds_draw: 3.1,
+    odds_away: 2.8,
+    is_open: true,
+  },
+  {
+    id: "demo-3",
+    league: "Premier League",
+    home_team: "Manchester City",
+    away_team: "Liverpool",
+    start_time: day(3),
+    odds_home: 1.95,
+    odds_draw: 3.6,
+    odds_away: 3.75,
+    is_open: true,
+  },
+  {
+    id: "demo-4",
+    league: "Serie A",
+    home_team: "Juventus",
+    away_team: "Inter Milan",
+    start_time: day(4),
+    odds_home: 2.7,
+    odds_draw: 3.05,
+    odds_away: 2.65,
+    is_open: true,
+  },
+  {
+    id: "demo-5",
+    league: "Champions League",
+    home_team: "Chelsea",
+    away_team: "AC Milan",
+    start_time: day(7),
+    odds_home: 2.25,
+    odds_draw: 3.25,
+    odds_away: 3.1,
+    is_open: true,
+  },
+];
