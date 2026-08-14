@@ -28,13 +28,13 @@ export const Route = createFileRoute("/")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "ApexBet — Live Sports Betting & Casino" },
+      { title: "MeltaBet — Live Sports Betting & Casino" },
       {
         name: "description",
         content:
-          "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad on ApexBet.",
+          "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad on MeltaBet.",
       },
-      { property: "og:title", content: "ApexBet — Live Sports Betting & Casino" },
+      { property: "og:title", content: "MeltaBet — Live Sports Betting & Casino" },
       {
         property: "og:description",
         content:
@@ -159,7 +159,7 @@ function Home() {
           <p className="mt-2 max-w-xl text-sm text-muted-foreground">
             {activeTab === "sports"
               ? "Three-way markets on the biggest fixtures, instant bet slips, and bKash/Nagad deposits with manual security review on every payout."
-              : "Stream live roulette, blackjack, baccarat and game shows — play with your ApexBet balance in real time."}
+              : "Stream live roulette, blackjack, baccarat and game shows — play with your MeltaBet balance in real time."}
           </p>
         </section>
 

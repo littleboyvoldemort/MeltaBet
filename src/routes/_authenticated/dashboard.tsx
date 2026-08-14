@@ -19,10 +19,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "My Dashboard — ApexBet" },
+      { title: "My Dashboard — MeltaBet" },
       {
         name: "description",
-        content: "View your bet history, balance, and account activity on ApexBet.",
+        content: "View your bet history, balance, and account activity on MeltaBet.",
       },
     ],
   }),

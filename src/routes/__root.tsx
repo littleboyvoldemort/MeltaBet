@@ -78,15 +78,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ApexBet — Sportsbook & Live Casino" },
+      { title: "MeltaBet — Sportsbook & Live Casino" },
       {
         name: "description",
-        content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on ApexBet.",
+        content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on MeltaBet.",
       },
-      { property: "og:title", content: "ApexBet — Sportsbook & Live Casino" },
+      { property: "og:title", content: "MeltaBet — Sportsbook & Live Casino" },
       {
         property: "og:description",
-        content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on ApexBet.",
+        content: "Place 3-way football bets, play live casino games, and manage your balance with bKash/Nagad on MeltaBet.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -12,15 +12,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in or register — ApexBet Sportsbook" },
+      { title: "Sign in or register — MeltaBet Sportsbook" },
       {
         name: "description",
-        content: "Create your ApexBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
+        content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
       },
-      { property: "og:title", content: "Sign in or register — ApexBet Sportsbook" },
+      { property: "og:title", content: "Sign in or register — MeltaBet Sportsbook" },
       {
         property: "og:description",
-        content: "Create your ApexBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
+        content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
       },
     ],
   }),

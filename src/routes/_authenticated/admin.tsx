@@ -28,7 +28,7 @@ import { formatBdt } from "@/lib/currency";
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Admin console — ApexBet" },
+      { title: "Admin console — MeltaBet" },
       { name: "description", content: "Approve deposits, process withdrawals and manage payout settings." },
       { name: "robots", content: "noindex" },
     ],

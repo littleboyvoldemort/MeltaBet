@@ -1,4 +1,4 @@
--- ApexBet — run this once in Supabase SQL Editor (Dashboard → SQL → New query)
+-- MeltaBet — run this once in Supabase SQL Editor (Dashboard → SQL → New query)
 -- Creates all tables, policies, seed matches, and an empty merchant-number slot.
 
 CREATE TYPE public.app_role AS ENUM ('admin', 'user');
