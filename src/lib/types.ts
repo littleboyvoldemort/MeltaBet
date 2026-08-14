@@ -16,31 +16,28 @@ export type Database = {
     Tables: {
       bets: {
         Row: {
+          amount: number
           created_at: string
           id: string
-          potential_payout: number
-          selections: Json
-          stake: number
+          payout: number
           status: string
           total_odds: number
           user_id: string
         }
         Insert: {
+          amount: number
           created_at?: string
           id?: string
-          potential_payout: number
-          selections: Json
-          stake: number
+          payout: number
           status?: string
           total_odds: number
           user_id: string
         }
         Update: {
+          amount?: number
           created_at?: string
           id?: string
-          potential_payout?: number
-          selections?: Json
-          stake?: number
+          payout?: number
           status?: string
           total_odds?: number
           user_id?: string

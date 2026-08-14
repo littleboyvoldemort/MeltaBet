@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Copy, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -22,22 +22,37 @@ import {
 type DepositProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  merchantNumber: string;
+  merchantLoading: boolean;
   submitting: boolean;
   onSubmit: (amount: number, txId: string) => void;
 };
 
-export function DepositDialog({ open, onOpenChange, submitting, onSubmit }: DepositProps) {
+export function DepositDialog({
+  open,
+  onOpenChange,
+  merchantNumber,
+  merchantLoading,
+  submitting,
+  onSubmit,
+}: DepositProps) {
   const [amount, setAmount] = useState("");
   const [txId, setTxId] = useState("");
 
+  const hasMerchantNumber = merchantNumber.trim().length > 0;
+
   function handleSubmit() {
+    if (!hasMerchantNumber) {
+      toast.error("Deposits are not available yet. The merchant number will be added soon.");
+      return;
+    }
     const parsed = Number(amount);
     if (!Number.isFinite(parsed) || parsed < MIN_DEPOSIT_BDT) {
       toast.error(`Minimum deposit is ${formatBdt(MIN_DEPOSIT_BDT)}`);
       return;
     }
     if (!txId.trim() || txId.trim().length < 6) {
-      toast.error("Enter a valid bKash/Nagad transaction ID");
+      toast.error("Enter a valid transaction ID (TxID)");
       return;
     }
     onSubmit(parsed, txId.trim());
@@ -49,39 +64,83 @@ export function DepositDialog({ open, onOpenChange, submitting, onSubmit }: Depo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Deposit</DialogTitle>
+          <DialogTitle>Deposit funds</DialogTitle>
           <DialogDescription>
-            Send money via bKash or Nagad, then submit your deposit request below. Your balance
-            updates after admin approval.
+            Send money via bKash or Nagad, then submit your transaction details below. Minimum
+            deposit {formatBdt(MIN_DEPOSIT_BDT)}.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="dep-amount">Amount (Min ৳50)</Label>
+            <Label>bKash/Nagad Number</Label>
+            <div className="flex items-center gap-2 rounded-md border border-border bg-secondary p-3">
+              <code className="min-w-0 flex-1 truncate text-sm">
+                {merchantLoading
+                  ? "Loading…"
+                  : hasMerchantNumber
+                    ? merchantNumber
+                    : "Not configured yet"}
+              </code>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  navigator.clipboard.writeText(merchantNumber);
+                  toast.success("Number copied");
+                }}
+                disabled={merchantLoading || !hasMerchantNumber}
+              >
+                <Copy className="size-4" />
+              </Button>
+            </div>
+            {!hasMerchantNumber && !merchantLoading ? (
+              <p className="text-xs text-amber-200/90">
+                The merchant number will be published here soon. Please check back later.
+              </p>
+            ) : (
+              <p className="text-xs text-muted-foreground">
+                Send money to this number from your bKash or Nagad account.
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="dep-amount">Amount (৳)</Label>
             <Input
               id="dep-amount"
               inputMode="decimal"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="50"
+              placeholder={`Min ${MIN_DEPOSIT_BDT}`}
+              disabled={!hasMerchantNumber}
             />
+            <p className="text-xs text-muted-foreground">
+              Minimum deposit {formatBdt(MIN_DEPOSIT_BDT)}
+            </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="dep-tx">bKash/Nagad Transaction ID</Label>
+            <Label htmlFor="dep-tx">Transaction ID (TxID)</Label>
             <Input
               id="dep-tx"
               value={txId}
               onChange={(e) => setTxId(e.target.value)}
-              placeholder="Enter your bKash or Nagad TxID"
+              placeholder="Send money to the merchant number and enter your TxID here"
+              disabled={!hasMerchantNumber}
             />
           </div>
 
-          <Button className="w-full" disabled={submitting} onClick={handleSubmit}>
-            {submitting ? <Loader2 className="size-4 animate-spin" /> : null}
-            Submit Deposit Request
+          <Button
+            className="w-full"
+            disabled={submitting || !hasMerchantNumber}
+            onClick={handleSubmit}
+          >
+            {submitting ? <Loader2 className="size-4 animate-spin" /> : null} I have sent the money
           </Button>
+          <p className="text-center text-xs text-muted-foreground">
+            Your balance updates only after an admin confirms the payment.
+          </p>
         </div>
       </DialogContent>
     </Dialog>
@@ -134,22 +193,19 @@ export function WithdrawDialog({ open, onOpenChange, balance, submitting, onSubm
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="wd-mobile">User&apos;s bKash/Nagad Number</Label>
+            <Label htmlFor="wd-mobile">Your bKash/Nagad Number</Label>
             <Input
               id="wd-mobile"
               inputMode="tel"
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value)}
-              placeholder="Your bKash or Nagad number"
+              placeholder="01XXXXXXXXX"
               maxLength={11}
             />
-            <p className="text-xs text-muted-foreground">
-              Enter the bKash or Nagad number where you want to receive the money.
-            </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="wd-amount">Amount (৳)</Label>
+            <Label htmlFor="wd-amount">Amount (Min ৳{MIN_WITHDRAW_BDT})</Label>
             <Input
               id="wd-amount"
               inputMode="decimal"
@@ -157,17 +213,14 @@ export function WithdrawDialog({ open, onOpenChange, balance, submitting, onSubm
               onChange={(e) => setAmount(e.target.value)}
               placeholder={`Min ${MIN_WITHDRAW_BDT}`}
             />
-            <p className="text-xs text-muted-foreground">
-              Minimum withdrawal {formatBdt(MIN_WITHDRAW_BDT)}
+            <p className="text-sm text-amber-200/90">
+              Note: 10% admin commission will be deducted upon approval.
             </p>
           </div>
 
           <Button className="w-full" disabled={submitting} onClick={handleSubmit}>
-            {submitting ? <Loader2 className="size-4 animate-spin" /> : null} Request withdrawal
+            {submitting ? <Loader2 className="size-4 animate-spin" /> : null} Submit Withdraw Request
           </Button>
-          <p className="text-center text-xs text-muted-foreground">
-            The amount is deducted immediately and sent to your number after admin processing.
-          </p>
         </div>
       </DialogContent>
     </Dialog>

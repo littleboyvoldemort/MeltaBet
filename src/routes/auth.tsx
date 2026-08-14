@@ -12,15 +12,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in or register — MeltaBet Sportsbook" },
+      { title: "Sign in or register — ApexBet Sportsbook" },
       {
         name: "description",
-        content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
+        content: "Create your ApexBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
       },
-      { property: "og:title", content: "Sign in or register — MeltaBet Sportsbook" },
+      { property: "og:title", content: "Sign in or register — ApexBet Sportsbook" },
       {
         property: "og:description",
-        content: "Create your MeltaBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
+        content: "Create your ApexBet account or log in to place bets, deposit via bKash/Nagad and track your balance.",
       },
     ],
   }),
@@ -81,7 +81,7 @@ function AuthPage() {
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-md rounded-xl border border-border bg-card p-6">
         <h1 className="text-2xl font-black tracking-tight">
-          MELTA<span className="text-primary">BET</span>
+          APEX<span className="text-primary">BET</span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Sign in to place bets, deposit via bKash/Nagad, and withdraw.

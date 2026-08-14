@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 
 import { supabase } from "@/integrations/supabase/client";
-import { getMyAccount } from "@/lib/betting.functions";
+import { getMyAccount, getMyBets } from "@/lib/betting.functions";
 import { DEMO_MATCHES } from "@/lib/demo-matches";
 import { LEGACY_MERCHANT_SETTING_KEY, MERCHANT_SETTING_KEY } from "@/lib/settings";
 
@@ -32,6 +32,15 @@ export function useAccount(enabled: boolean) {
   return useQuery({
     queryKey: ["account"],
     queryFn: () => fetchAccount(),
+    enabled,
+  });
+}
+
+export function useMyBets(enabled: boolean) {
+  const fetchBets = useServerFn(getMyBets);
+  return useQuery({
+    queryKey: ["bets"],
+    queryFn: () => fetchBets(),
     enabled,
   });
 }

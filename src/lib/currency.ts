@@ -1,6 +1,5 @@
-export const MIN_DEPOSIT_BDT = 50;
+export const MIN_DEPOSIT_BDT = 100;
 export const MIN_WITHDRAW_BDT = 200;
-export const MIN_BET_BDT = 50;
 
 export function formatBdt(amount: number) {
   return `৳${amount.toLocaleString("en-BD", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;

@@ -1,59 +1,75 @@
 import { Link } from "@tanstack/react-router";
-import { LogOut, Shield, Wallet, ArrowDownToLine, ArrowUpFromLine, Loader2 } from "lucide-react";
+import {
+  LogOut,
+  Shield,
+  Wallet,
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  Loader2,
+  LayoutDashboard,
+} from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
+import { getMyAccount } from "@/lib/betting.functions";
+import { formatBdt } from "@/lib/currency";
 
 type Props = {
-  username?: string | null | undefined;
-  balance?: number | null | undefined;
-  isAdmin?: boolean | undefined;
-  loading?: boolean | undefined;
   signedIn: boolean;
   onDeposit: () => void;
   onWithdraw: () => void;
   onSignOut: () => void;
 };
 
-export function SiteHeader({
-  username,
-  balance,
-  isAdmin,
-  loading,
-  signedIn,
-  onDeposit,
-  onWithdraw,
-  onSignOut,
-}: Props) {
+export function SiteHeader({ signedIn, onDeposit, onWithdraw, onSignOut }: Props) {
+  const fetchAccount = useServerFn(getMyAccount);
+  const account = useQuery({
+    queryKey: ["account"],
+    queryFn: () => fetchAccount(),
+    enabled: signedIn,
+  });
+
+  const balance = account.data?.profile?.balance ?? 0;
+  const username = account.data?.profile?.username;
+  const isAdmin = account.data?.isAdmin ?? false;
+  const loading = account.isLoading;
+
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-card/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
         <Link to="/" className="flex items-center gap-2">
           <span className="grid size-8 place-items-center rounded-md bg-primary font-black text-primary-foreground">
-            M
+            1
           </span>
           <span className="text-lg font-black tracking-tight">
-            MELTA<span className="text-primary">BET</span>
+            APEX<span className="text-primary">BET</span>
           </span>
         </Link>
 
         <div className="ml-auto flex flex-wrap items-center gap-2">
           {signedIn ? (
             <>
-              <div className="flex items-center gap-2 rounded-md border border-border bg-secondary px-3 py-2">
-                <Wallet className="size-4 text-primary" />
-                <div className="leading-none">
-                  <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                    {username ?? "Player"}
+              <div className="flex items-center gap-3 rounded-lg border-2 border-primary/30 bg-primary/10 px-4 py-2">
+                <Wallet className="size-5 shrink-0 text-primary" />
+                <div className="leading-tight">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    {username ?? "Player"} · Balance
                   </div>
-                  <div className="text-sm font-bold tabular-nums">
+                  <div className="text-xl font-black tabular-nums text-primary">
                     {loading ? (
-                      <Loader2 className="size-3 animate-spin" />
+                      <Loader2 className="size-5 animate-spin" />
                     ) : (
-                      `৳${(balance ?? 0).toLocaleString("en-BD", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
+                      formatBdt(balance)
                     )}
                   </div>
                 </div>
               </div>
+              <Button size="sm" variant="outline" asChild>
+                <Link to="/dashboard">
+                  <LayoutDashboard className="size-4" /> Dashboard
+                </Link>
+              </Button>
               <Button size="sm" onClick={onDeposit}>
                 <ArrowDownToLine className="size-4" /> Deposit
               </Button>

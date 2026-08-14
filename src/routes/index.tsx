@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Dices, Trophy } from "lucide-react";
 
@@ -9,28 +9,32 @@ import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/betting/site-header";
 import { MatchList } from "@/components/betting/match-list";
 import { CasinoGrid } from "@/components/betting/casino-grid";
+import { BetSlip } from "@/components/betting/bet-slip";
 import { DepositDialog, WithdrawDialog } from "@/components/betting/wallet-dialogs";
+import { formatBdt } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 import type { CasinoGame } from "@/lib/casino-games";
 import {
   useAccount,
+  useDepositWallet,
   useInvalidateAccount,
   useMatches,
   useSession,
+  type Match,
 } from "@/lib/betting-hooks";
-import { requestWithdraw, submitDeposit } from "@/lib/betting.functions";
+import { placeBet, requestWithdraw, submitDeposit, type Selection } from "@/lib/betting.functions";
 
 export const Route = createFileRoute("/")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "MeltaBet — Live Sports Betting & Casino" },
+      { title: "ApexBet — Live Sports Betting & Casino" },
       {
         name: "description",
         content:
-          "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad on MeltaBet.",
+          "Bet on football with 3-way odds, play live casino games, and deposit via bKash or Nagad on ApexBet.",
       },
-      { property: "og:title", content: "MeltaBet — Live Sports Betting & Casino" },
+      { property: "og:title", content: "ApexBet — Live Sports Betting & Casino" },
       {
         property: "og:description",
         content:
@@ -47,30 +51,37 @@ function Home() {
   const signedIn = !!session;
   const account = useAccount(signedIn);
   const matches = useMatches();
+  const wallet = useDepositWallet();
   const invalidate = useInvalidateAccount();
 
-  const [displayBalance, setDisplayBalance] = useState<number | null>(null);
+  const [selections, setSelections] = useState<Selection[]>([]);
+  const [stake, setStake] = useState("");
   const [depositOpen, setDepositOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"sports" | "casino">("sports");
 
+  const placeBetFn = useServerFn(placeBet);
   const depositFn = useServerFn(submitDeposit);
   const withdrawFn = useServerFn(requestWithdraw);
 
-  const accountBalance = account.data?.profile?.balance ?? 0;
-  const balance = displayBalance ?? accountBalance;
+  const balance = account.data?.profile?.balance ?? 0;
 
-  useEffect(() => {
-    if (account.data?.profile?.balance != null) {
-      setDisplayBalance(account.data.profile.balance);
-    }
-  }, [account.data?.profile?.balance]);
+  const betMutation = useMutation({
+    mutationFn: () => placeBetFn({ data: { selections, stake: Number(stake) } }),
+    onSuccess: (res) => {
+      toast.success(`Bet placed — potential payout ${formatBdt(res.payout)}`);
+      setSelections([]);
+      setStake("");
+      invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message || "Could not place bet"),
+  });
 
   const depositMutation = useMutation({
     mutationFn: (vars: { amount: number; txId: string }) => depositFn({ data: vars }),
     onSuccess: () => {
       setDepositOpen(false);
-      toast.success("Deposit request submitted! Please wait for admin approval.");
+      toast.success("Deposit submitted. Awaiting admin confirmation.");
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message || "Could not submit deposit"),
@@ -78,9 +89,8 @@ function Home() {
 
   const withdrawMutation = useMutation({
     mutationFn: (vars: { amount: number; wallet: string }) => withdrawFn({ data: vars }),
-    onSuccess: (res) => {
+    onSuccess: () => {
       setWithdrawOpen(false);
-      setDisplayBalance(res.balance);
       toast.success("Withdrawal request submitted. Pending admin processing.");
       invalidate();
     },
@@ -96,6 +106,25 @@ function Home() {
     return true;
   }
 
+  function pick(match: Match, choice: "home" | "draw" | "away") {
+    const odds =
+      choice === "home" ? match.odds_home : choice === "draw" ? match.odds_draw : match.odds_away;
+    const label = `${match.home_team} v ${match.away_team} — ${
+      choice === "home" ? match.home_team : choice === "draw" ? "Draw" : match.away_team
+    }`;
+    setSelections((prev) => {
+      const existing = prev.find((s) => s.matchId === match.id);
+      if (existing && existing.pick === choice) return prev.filter((s) => s.matchId !== match.id);
+      const next = prev.filter((s) => s.matchId !== match.id);
+      return [...next, { matchId: match.id, pick: choice, odds, label }];
+    });
+  }
+
+  const selectedMap = Object.fromEntries(selections.map((s) => [s.matchId, s.pick])) as Record<
+    string,
+    "home" | "draw" | "away"
+  >;
+
   function handleCasinoPlay(game: CasinoGame) {
     if (!requireAuth()) return;
     toast.info(`${game.name} is launching soon — live dealer integration coming next.`);
@@ -108,10 +137,6 @@ function Home() {
     <div className="min-h-screen bg-background">
       <SiteHeader
         signedIn={signedIn}
-        username={account.data?.profile?.username}
-        balance={balance}
-        isAdmin={account.data?.isAdmin}
-        loading={account.isLoading}
         onDeposit={() => requireAuth() && setDepositOpen(true)}
         onWithdraw={() => requireAuth() && setWithdrawOpen(true)}
         onSignOut={async () => {
@@ -133,8 +158,8 @@ function Home() {
           </h1>
           <p className="mt-2 max-w-xl text-sm text-muted-foreground">
             {activeTab === "sports"
-              ? "Pick a match, enter your bet amount, and place instantly. Deposits via bKash/Nagad."
-              : "Stream live roulette, blackjack, baccarat and game shows — play with your MeltaBet balance in real time."}
+              ? "Three-way markets on the biggest fixtures, instant bet slips, and bKash/Nagad deposits with manual security review on every payout."
+              : "Stream live roulette, blackjack, baccarat and game shows — play with your ApexBet balance in real time."}
           </p>
         </section>
 
@@ -167,34 +192,55 @@ function Home() {
           </button>
         </div>
 
-        {activeTab === "sports" ? (
-          <>
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">
-              Upcoming matches
-            </h2>
-            <MatchList
-              matches={matchData}
-              loading={matches.isLoading}
-              error={matches.isError ? (matches.error as Error).message : null}
-              isDemo={isDemoMatches}
-              signedIn={signedIn}
-              onRequireAuth={requireAuth}
-              onBalanceUpdate={setDisplayBalance}
-            />
-          </>
-        ) : (
-          <>
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">
-              Live casino games
-            </h2>
-            <CasinoGrid signedIn={signedIn} onPlay={handleCasinoPlay} />
-          </>
-        )}
+        <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+          <div>
+            {activeTab === "sports" ? (
+              <>
+                <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">
+                  Upcoming matches
+                </h2>
+                <MatchList
+                  matches={matchData}
+                  loading={matches.isLoading}
+                  error={matches.isError ? (matches.error as Error).message : null}
+                  isDemo={isDemoMatches}
+                  selected={selectedMap}
+                  onPick={pick}
+                />
+              </>
+            ) : (
+              <>
+                <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">
+                  Live casino games
+                </h2>
+                <CasinoGrid signedIn={signedIn} onPlay={handleCasinoPlay} />
+              </>
+            )}
+          </div>
+
+          {activeTab === "sports" ? (
+            <aside className="lg:sticky lg:top-20 lg:h-fit">
+              <BetSlip
+                selections={selections}
+                stake={stake}
+                onStakeChange={setStake}
+                onRemove={(id) => setSelections((p) => p.filter((s) => s.matchId !== id))}
+                onClear={() => setSelections([])}
+                onPlaceBet={() => requireAuth() && betMutation.mutate()}
+                placing={betMutation.isPending}
+                signedIn={signedIn}
+                balance={balance}
+              />
+            </aside>
+          ) : null}
+        </div>
       </main>
 
       <DepositDialog
         open={depositOpen}
         onOpenChange={setDepositOpen}
+        merchantNumber={wallet.data ?? ""}
+        merchantLoading={wallet.isLoading}
         submitting={depositMutation.isPending}
         onSubmit={(amount, txId) => depositMutation.mutate({ amount, txId })}
       />
